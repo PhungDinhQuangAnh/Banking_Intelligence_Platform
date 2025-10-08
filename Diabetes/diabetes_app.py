@@ -34,7 +34,7 @@ def run_diabetes_app():
                 Age = st.selectbox("Tuổi", ["18–24 tuổi","25–29 tuổi","30–34 tuổi","35–39 tuổi","40–44 tuổi","45–49 tuổi","50–54 tuổi","55–59 tuổi","60–64 tuổi","65–69 tuổi","70–74 tuổi","75–79 tuổi","Trên 80 tuổi"])
                 Income = st.selectbox("Thu nhập", ["Dưới 4 triệu VNĐ/tháng","4–6 triệu VNĐ/tháng","6–8 triệu VNĐ/tháng","8–10 triệu VNĐ/tháng","10–13 triệu VNĐ/tháng","13–18 triệu VNĐ/tháng","18–25 triệu VNĐ/tháng","Trên 25 triệu VNĐ/tháng"])
 
-        with st.expander("‍❤️ **Tiền sử bệnh & sức khỏe tổng quát**"):
+        with st.expander("‍ ❤️ **Tiền sử bệnh & sức khỏe tổng quát**"):
             col3, col4 = st.columns(2)
             with col3:
                 HighBP = st.radio("Từng được chẩn đoán bị huyết áp cao?", ["Không", "Có"], horizontal=True)
@@ -349,5 +349,6 @@ def run_diabetes_app():
     
             </div>
             """, unsafe_allow_html=True)
+
 
 
