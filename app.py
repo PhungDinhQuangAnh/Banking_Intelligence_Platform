@@ -109,9 +109,9 @@ with st.sidebar:
     <div class="info-card">
         <strong>AI-Health</strong> là ứng dụng hỗ trợ <b>dự đoán xu hướng chi phí y tế</b> và <b>khả năng mắc bệnh</b> bằng trí tuệ nhân tạo. Nhập thông tin cá nhân, hệ thống sẽ ước tính:
         <ul style="padding-left:18px;">
-            <li>💰 Chi phí y tế hàng năm (bảo hiểm chi trả)</li>
-            <li>🩸 Nguy cơ mắc bệnh tiểu đường</li>
-            <li>❤️ Khả năng bị bệnh tim mạch</li>
+            <li>Chi phí y tế hàng năm (bảo hiểm chi trả)</li>
+            <li>Nguy cơ mắc bệnh tiểu đường</li>
+            <li>Khả năng bị bệnh tim mạch</li>
         </ul>
         <span style="font-size:13px; color:#777;"><b><i>⚠️ Kết quả chỉ mang tính tham khảo và không thay thế tư vấn y tế chuyên môn.</i></b></span>
     </div>
@@ -169,6 +169,7 @@ elif selected_app == "Tiểu đường":
 elif selected_app == "Bệnh tim":
     from Heart.heart_app import run_heart_app
     run_heart_app()
+
 
 
 
