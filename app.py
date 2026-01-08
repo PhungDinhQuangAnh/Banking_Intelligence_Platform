@@ -32,7 +32,7 @@ with st.sidebar:
     .section-title {
         font-size: 18px;
         font-weight: 600;
-        color: 	#2E86C1;
+        color: #2E86C1;
         margin: 14px 0 10px;
         border-bottom: 1px solid #D6EAF8;
         padding-bottom: 4px;
@@ -80,11 +80,11 @@ with st.sidebar:
     # --- Menu chọn mô hình ---
     st.markdown("<div class='section-title'>🔎 Chọn mô hình</div>", unsafe_allow_html=True)
     selected_app = option_menu(
-        menu_title=None,
-        options=["Chi phí y tế", "Tiểu đường", "Bệnh tim"],
-        icons=["cash-coin", "droplet-half", "heart-pulse"],
-        default_index=0,
-        styles={
+        menu_title = None,
+        options = ["Chi phí y tế", "Tiểu đường", "Bệnh tim"],
+        icons = ["cash-coin", "droplet-half", "heart-pulse"],
+        default_index = 0,
+        styles = {
             "container": {"padding": "0!important", "background-color": "#fff"},
             "icon": {"color": "#2E86C1", "font-size": "18px"},
             "nav-link": {
@@ -169,14 +169,3 @@ elif selected_app == "Tiểu đường":
 elif selected_app == "Bệnh tim":
     from Heart.heart_app import run_heart_app
     run_heart_app()
-
-
-
-
-
-
-
-
-
-
-
