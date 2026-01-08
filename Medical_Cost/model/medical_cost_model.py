@@ -16,32 +16,32 @@ def check_data(df, target):
     np.set_printoptions(suppress=True)
     num_cols = [col for col in df.select_dtypes(include=['int64', 'float64']).columns]
     print("")
-    print("🔍 THÔNG TIN CƠ BẢN:")
+    print("THÔNG TIN CƠ BẢN:")
     print(df.info())
     print("-------------------------------\n")
 
-    print("❓ GIÁ TRỊ THIẾU:")
+    print("GIÁ TRỊ THIẾU:")
     missing = df.isnull().sum()
     print(missing[missing > 0])
     print("-------------------------------\n")
 
-    print("📌 TRÙNG LẶP:", df.duplicated().sum(), "dòng")
+    print("TRÙNG LẶP:", df.duplicated().sum(), "dòng")
     print("-------------------------------\n")
 
-    print("⚠️ KIỂM TRA DỮ LIỆU:")
+    print("KIỂM TRA DỮ LIỆU:")
     for col in df.columns:
         print(f"- {col}:", df[col].unique())
     print("-------------------------------\n")
 
-    print("⚠️ KIỂM TRA PHÂN PHỐI GIÁ TRỊ CÁC CỘT:")
+    print("KIỂM TRA PHÂN PHỐI GIÁ TRỊ CÁC CỘT:")
     for col in df.columns:
         if col != target:
-            print(f"🔹 {col} value_counts():")
+            print(f"{col} value_counts():")
             print(df[col].value_counts(dropna=False))
             print("")
     print("-------------------------------\n")
 
-    print("📦 KIỂM TRA KIỂU DỮ LIỆU SAI:")
+    print("KIỂM TRA KIỂU DỮ LIỆU SAI:")
     for col in df.select_dtypes(include='object').columns:
         try:
             pd.to_numeric(df[col])
@@ -50,36 +50,36 @@ def check_data(df, target):
             pass
     print("-------------------------------\n")
 
-    print("📊 THỐNG KÊ MÔ TẢ CÁC CỘT DỮ LIỆU SỐ:")
+    print("THỐNG KÊ MÔ TẢ CÁC CỘT DỮ LIỆU SỐ:")
     pd.set_option('display.max_columns', None)
     print(df[num_cols].describe())
     print("-------------------------------\n")
 
-    print("🎯 KIỂM TRA ĐỘ MẤT CÂN BẰNG DỮ LIỆU:")
+    print("KIỂM TRA ĐỘ MẤT CÂN BẰNG DỮ LIỆU:")
     class_counts = df[target].value_counts()
     print(class_counts)
-    print("➡️ TỈ LỆ PHẦN TRĂM (%):")
+    print("TỈ LỆ PHẦN TRĂM (%):")
     print(round(df[target].value_counts(normalize=True) * 100, 2))
     print("-------------------------------\n")
 
-# --- Get the absolute path of the current directory ---
+# --- Lấy đường dẫn tuyệt đối của thư mục hiện tại ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# --- 1. Load & Explore Dataset ---
+# --- 1. Tải & Khám phá Dataset ---
 df = pd.read_csv(os.path.join(BASE_DIR, "..", "dataset", "medical_cost_dataset.csv"))
 target = "charges"
 # check_data(df,target)
 
-# --- 2. Data Preprocessing ---
-# 2_1. Handle missing values
+# --- 2. Tiền xử lý dữ liệu ---
+# 2_1. Xử lý missing values
 df = df.drop_duplicates().reset_index(drop=True)
 
-# 2_2. Data Partitioning
+# 2_2. Chia x, y
 x = df.drop(target,axis=1)
 y = np.log(df[target])  # log-transform target
 x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.8, random_state=42)
 
-# 2_3. Data Transformation
+# 2_3. Biến đổi dữ liệu
 num_cols = ['age', 'bmi', 'children']
 ord_cols = ['sex', 'smoker']
 ord_categories = [['male', 'female'], ['no', 'yes']]
@@ -95,7 +95,7 @@ preprocessor = ColumnTransformer(transformers=[
     ('nom', nom_encoder, nom_cols)
 ])
 
-# --- 3. Model Building ---
+# --- 3. Xây dựng mô hình ---
 model = Pipeline(steps=[
     ('preprocessor', preprocessor),
     ('regressor', RandomForestRegressor())
@@ -117,7 +117,7 @@ y_pred_log = model.predict(x_test)
 y_pred = np.exp(y_pred_log)  # chuyển log back về giá trị gốc
 y_test_true = np.exp(y_test)
 
-# --- 4. Model Evaluation ---
+# --- 4. Đánh giá mô hình ---
 # 4_1. Metrics
 mae = mean_absolute_error(y_test_true, y_pred)
 rmse = np.sqrt(mean_squared_error(y_test_true, y_pred))
@@ -149,10 +149,10 @@ plt.tight_layout()
 plt.savefig(os.path.join(BASE_DIR, "..", "report", "error_distribution.png"))
 plt.close()
 
-# --- Save model ---
+# --- Lưu mô hình ---
 joblib.dump(model, "medical_cost_model.pkl")
 
-# --- Save metrics ---
+# --- Lưu metrics ---
 metrics = {"MAE": mae, "RMSE": rmse, "R2": r2}
 with open(os.path.join(BASE_DIR, "..", "report", "medical_cost_metrics.json"), "w") as f:
     json.dump(metrics, f)
