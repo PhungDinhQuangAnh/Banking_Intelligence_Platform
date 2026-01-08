@@ -23,7 +23,7 @@ def run_heart_app():
     model = joblib.load(MODEL_PATH)
 
     # --- 3. Form nhập liệu người dùng ---
-    st.subheader("🔍 Nhập thông tin sức khỏe")
+    st.subheader("Nhập thông tin sức khỏe")
     with st.form("input_form"):
         tab1, tab2, tab3, tab4 = st.tabs([
             "👤 **Cá nhân**",
@@ -32,7 +32,7 @@ def run_heart_app():
             "🧪 **Sinh hóa**"
         ])
 
-        # --- 👤 TAB 1: Thông tin cá nhân ---
+        # --- TAB 1: Thông tin cá nhân ---
         with tab1:
             col1, col2 = st.columns(2)
             with col1:
@@ -42,7 +42,7 @@ def run_heart_app():
                 sex = st.radio("Giới tính (Sex)", ["Nam", "Nữ"],
                                help="Giới tính sinh học của bạn", horizontal=True)
 
-        # --- ❤️ TAB 2: Chỉ số tim mạch ---
+        # --- TAB 2: Chỉ số tim mạch ---
         with tab2:
             col1, col2 = st.columns(2)
             with col1:
@@ -67,7 +67,7 @@ def run_heart_app():
             if oldpeak > 3.75:
                 st.warning("⚠️ Oldpeak cao bất thường, mô hình có thể không phản ánh chính xác.")
 
-        # --- 🩺 TAB 3: Triệu chứng lâm sàng ---
+        # --- TAB 3: Triệu chứng lâm sàng ---
         with tab3:
             col1, col2 = st.columns(2)
             with col1:
@@ -81,7 +81,7 @@ def run_heart_app():
                 exercise_angina = st.radio("Đau ngực khi gắng sức?", ["Không", "Có"],
                                            help="Bạn có thấy đau ngực khi tập thể dục hoặc gắng sức?", horizontal=True)
 
-        # --- 🧪 TAB 4: Sinh hóa ---
+        # --- TAB 4: Sinh hóa ---
         with tab4:
             col1, col2 = st.columns(2)
             with col1:
@@ -94,7 +94,7 @@ def run_heart_app():
             if cholesterol > 350:
                 st.warning("⚠️ Cholesterol cao bất thường, nên kiểm tra sức khỏe sớm.")
 
-        submitted = st.form_submit_button("🎯 **Dự đoán**")
+        submitted = st.form_submit_button("**Dự đoán**")
 
     # --- 4. Dự đoán ---
     if submitted:
@@ -140,12 +140,12 @@ def run_heart_app():
 
         # --- 5. Gauge hiển thị phần trăm nguy cơ ---
         st.markdown("<br>", unsafe_allow_html=True)
-        st.subheader("📈 Kết quả dự đoán")
+        st.subheader("Kết quả dự đoán")
         fig = go.Figure(go.Indicator(
-            mode="gauge+number",
-            value=round(proba * 100, 2),
-            title={'text': "Nguy cơ mắc bệnh tim (%)"},
-            gauge={
+            mode = "gauge+number",
+            value = round(proba * 100, 2),
+            title = {'text': "Nguy cơ mắc bệnh tim (%)"},
+            gauge = {
                 'axis': {'range': [0, 100]},
                 'steps': [
                     {'range': [0, 30], 'color': "lightgreen"},
@@ -175,26 +175,26 @@ def run_heart_app():
 
         # 7_2. Nếu form đã submit, thêm dòng mới vào lịch sử
         record= {
-            "🕒 Thời gian": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "📈 Xác suất (%)": round(proba * 100, 2),
-            "🧑‍⚕️ Giới tính": sex,
-            "🎂 Tuổi": age,
-            "🩺 Huyết áp nghỉ": resting_bp,
-            "🧬 Cholesterol": cholesterol,
-            "🩸 Đường huyết lúc đói >120 mg/dL": fasting_bs,
-            "📈 Điện tim (ECG)": resting_ecg,
-            "❤️‍🔥 Nhịp tim tối đa": max_hr,
-            "🏃‍♂️ Đau thắt ngực khi gắng sức": exercise_angina,
-            "📉 Oldpeak (ST chênh)": oldpeak,
-            "💓 Loại đau ngực": chest_pain,
-            "📊 Độ dốc ST": st_slope
+            "Thời gian": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "Xác suất (%)": round(proba * 100, 2),
+            "Giới tính": sex,
+            "Tuổi": age,
+            "Huyết áp nghỉ": resting_bp,
+            "Cholesterol": cholesterol,
+            "Đường huyết lúc đói >120 mg/dL": fasting_bs,
+            "Điện tim (ECG)": resting_ecg,
+            "Nhịp tim tối đa": max_hr,
+            "Đau thắt ngực khi gắng sức": exercise_angina,
+            "Oldpeak (ST chênh)": oldpeak,
+            "Loại đau ngực": chest_pain,
+            "Độ dốc ST": st_slope
         }
         st.session_state["heart_history"].append(record)
 
         # 7_3. Hiển thị lịch sử dự đoán (gồm cả bản mới nhất)
         if st.session_state["heart_history"]:
             st.markdown("<br>", unsafe_allow_html=True)
-            st.subheader("📜 Lịch sử dự đoán")
+            st.subheader("Lịch sử dự đoán")
             df_history = pd.DataFrame(st.session_state["heart_history"])
 
             # Tô đậm dòng cuối (mới nhất)
@@ -208,8 +208,8 @@ def run_heart_app():
 
         # --- 8. Đánh giá hiệu suất mô hình ---
         st.markdown("<br>", unsafe_allow_html=True)
-        st.subheader("🚀 Hiệu suất mô hình")
-        tab5, tab6 = st.tabs(["📊 **Confusion Matrix**","📋 **Classification Report**"])
+        st.subheader("Hiệu suất mô hình")
+        tab5, tab6 = st.tabs(["**Confusion Matrix**","**Classification Report**"])
         # 8_1. Confusion Matrix
         with tab5:
             with st.expander("", expanded=True):
@@ -219,22 +219,22 @@ def run_heart_app():
                 with col2:
                     st.markdown("""
                     <div background-color: #f9f9f9; border-radius: 5px; border-left: 3px solid #FF4B4B;'>
-                    <h5>💡<b>Tóm tắt:</b></h5>
+                    <h5><b>Tóm tắt:</b></h5>
                     <ul>
-                      <li>✅ <b>Phát hiện đúng người có bệnh:</b> 99 người</li>
-                      <li>❌ <b>Bỏ sót người bệnh:</b> 13 người</li>
-                      <li>⚠️ <b>Cảnh báo nhầm người khỏe:</b> 9 người</li>
-                      <li>🧍 <b>Phát hiện đúng người khỏe:</b> 63 người</li>
-                      <li>➡️ <b>Phát hiện đúng:</b> 162/184 người</li>
+                      <li><b>Phát hiện đúng người có bệnh:</b> 99 người</li>
+                      <li><b>Bỏ sót người bệnh:</b> 13 người</li>
+                      <li><b>Cảnh báo nhầm người khỏe:</b> 9 người</li>
+                      <li><b>Phát hiện đúng người khỏe:</b> 63 người</li>
+                      <li><b>Phát hiện đúng:</b> 162/184 người</li>
                     </ul>
         
-                    <h5>📌 <b>Kết luận:</b></h5>
+                    <h5><b>Kết luận:</b></h5>
                     <p style='color: #333;'>
                     Mô hình đã học từ dữ liệu y tế thật và hoạt động khá chính xác, nhưng:
                     <ul>
-                      <li>🧑‍⚕️ Không thay thế bác sĩ.</li>
-                      <li>📍 Nếu hệ thống cảnh báo bạn có nguy cơ, hãy <b>đi khám để xác nhận</b>.</li>
-                      <li>😐 Nếu hệ thống nói bạn khỏe, nhưng bạn thấy <b>bất thường</b>, cũng nên đi khám nhé.</li>
+                      <li>Không thay thế bác sĩ.</li>
+                      <li>Nếu hệ thống cảnh báo bạn có nguy cơ, hãy <b>đi khám để xác nhận</b>.</li>
+                      <li>Nếu hệ thống nói bạn khỏe, nhưng bạn thấy <b>bất thường</b>, cũng nên đi khám nhé.</li>
                     </ul>
                     </p>
         
@@ -266,24 +266,24 @@ def run_heart_app():
 
                 # Phân tích dễ hiểu
                 st.markdown("""
-                    <h5>📊 Phân tích chi tiết:</h5>
+                    <h5>Phân tích chi tiết:</h5>
                     <ul>
-                        <li>👤 <b>Không mắc bệnh (Class 0):</b>
+                        <li><b>Không mắc bệnh (Class 0):</b>
                         <ul>
-                            <li>📏 Precision: {:.0f}% → Trong số dự đoán là <i>không mắc bệnh</i>, có {:.0f}% là đúng.
-                            <li>🎯 Recall: {:.0f}% → Trong số <i>thực sự không mắc bệnh</i>, mô hình phát hiện đúng {:.0f}%.
+                            <li>Precision: {:.0f}% → Trong số dự đoán là <i>không mắc bệnh</i>, có {:.0f}% là đúng.
+                            <li>Recall: {:.0f}% → Trong số <i>thực sự không mắc bệnh</i>, mô hình phát hiện đúng {:.0f}%.
                         </ul>
-                        <li>❤️ <b>Có bệnh (Class 1):</b>
+                        <li><b>Có bệnh (Class 1):</b>
                         <ul>
-                            <li>📏 Precision: {:.0f}% → Trong số dự đoán là <i>có bệnh</i>, có {:.0f}% là đúng.
-                            <li>🎯 Recall: {:.0f}% → Trong số <i>thực sự mắc bệnh</i>, mô hình phát hiện đúng {:.0f}%.
+                            <li>Precision: {:.0f}% → Trong số dự đoán là <i>có bệnh</i>, có {:.0f}% là đúng.
+                            <li>Recall: {:.0f}% → Trong số <i>thực sự mắc bệnh</i>, mô hình phát hiện đúng {:.0f}%.
                         </ul>
                     </ul>
-                    <h5>📈 Tổng thể:</h5>
+                    <h5>Tổng thể:</h5>
                     <ul>
-                        <li>✅ Accuracy (độ chính xác tổng thể): {:.0f}%
-                        <li>⚖️ Mô hình có độ cân bằng tốt (F1-score trung bình ≈ {:.0f}%)
-                        <li>🔍 Ưu tiên phát hiện đúng người có bệnh hơn → phù hợp cho mục tiêu sàng lọc nguy cơ.
+                        <li>Accuracy (độ chính xác tổng thể): {:.0f}%
+                        <li>Mô hình có độ cân bằng tốt (F1-score trung bình ≈ {:.0f}%)
+                        <li>Ưu tiên phát hiện đúng người có bệnh hơn → phù hợp cho mục tiêu sàng lọc nguy cơ.
                     </ul>
                     """.format(
                     report_df.loc["Không mắc bệnh (Class 0)", "precision"] * 100,
@@ -302,12 +302,12 @@ def run_heart_app():
 
         # --- 9. Thông tin thêm ---
         st.markdown("<br>", unsafe_allow_html=True)
-        st.subheader("📘 Thông tin thêm")
-        with st.expander("📖 **Xem chi tiết**"):
+        st.subheader("Thông tin thêm")
+        with st.expander("**Xem chi tiết**"):
             st.markdown("""
             <div style='font-size: 16px; line-height: 1.7; color: #333;'>
             
-            <h5>🧠 Về ứng dụng này</h5>
+            <h5>Về ứng dụng này</h5>
             
             <p>Ứng dụng giúp bạn <b>ước lượng nguy cơ mắc bệnh tim mạch vành</b> – một dạng bệnh tim phổ biến – dựa trên các thông tin sức khỏe cá nhân mà bạn cung cấp.</p>
             <p>Kết quả là <b>một con số phần trăm (%)</b> – càng cao thì nguy cơ mắc bệnh càng lớn.</p>
@@ -317,15 +317,15 @@ def run_heart_app():
             
             <hr>
             
-            <h5>📚 Bộ dữ liệu</h5>
+            <h5>Bộ dữ liệu</h5>
             <ul>
-                <li>🔢 Dữ liệu thật từ hồ sơ y tế của hơn 900 người.</li>
-                <li>🌐 Dữ liệu được người dùng <a href="https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction" target="_blank"><b>fedesoriano</b></a> trên Kaggle tổng hợp từ các bộ dữ liệu công khai (Cleveland, Hungary, Switzerland, VA Long Beach, Statlog).</li>
+                <li>Dữ liệu thật từ hồ sơ y tế của hơn 900 người.</li>
+                <li>Dữ liệu được người dùng <a href="https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction" target="_blank"><b>fedesoriano</b></a> trên Kaggle tổng hợp từ các bộ dữ liệu công khai (Cleveland, Hungary, Switzerland, VA Long Beach, Statlog).</li>
             </ul>
             
             <hr>
             
-            <h5>⚙️ Ứng dụng hoạt động thế nào?</h5>
+            <h5>Ứng dụng hoạt động thế nào?</h5>
             <ol>
                 <li>Bạn nhập các chỉ số sức khỏe vào biểu mẫu.</li>
                 <li>Mô hình <b>RandomForestClassifier</b> được huấn luyện với <b>bộ dữ liệu</b> sẽ phân tích và dự đoán nguy cơ.</li>
@@ -334,22 +334,13 @@ def run_heart_app():
             
             <hr>
             
-            <h5>🎯 Mục tiêu</h5>
+            <h5>Mục tiêu</h5>
             <p>Ứng dụng này không thay thế bác sĩ mà được xây dựng với các mục tiêu sau:</p>
             <ul>
-                <li>🧑‍⚕️ <b>Hỗ trợ chuyên gia y tế</b> trong việc đánh giá nguy cơ bệnh tim mạch dựa trên các chỉ số đã có.</li>
-                <li>📊 <b>Tham khảo nhanh</b> cho người đã thực hiện các xét nghiệm cơ bản nhưng chưa được tư vấn rõ ràng.</li>
-                <li>🧪 <b>Trình bày kết quả mô hình AI</b> trực quan, dễ hiểu cho mục đích học tập, nghiên cứu hoặc thử nghiệm.</li>
+                <li><b>Hỗ trợ chuyên gia y tế</b> trong việc đánh giá nguy cơ bệnh tim mạch dựa trên các chỉ số đã có.</li>
+                <li><b>Tham khảo nhanh</b> cho người đã thực hiện các xét nghiệm cơ bản nhưng chưa được tư vấn rõ ràng.</li>
+                <li><b>Trình bày kết quả mô hình AI</b> trực quan, dễ hiểu cho mục đích học tập, nghiên cứu hoặc thử nghiệm.</li>
             </ul>
     
             </div>
             """, unsafe_allow_html=True)
-
-
-
-
-
-
-
-
-
