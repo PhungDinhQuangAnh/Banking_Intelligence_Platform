@@ -107,14 +107,14 @@ def run_medical_cost_app():
         # 5_2. Nếu form đã submit, thêm dòng mới vào lịch sử
         if submitted:
             record = {
-                "⏰ Thời gian": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "💰 Dự đoán chi phí ($)": round(prediction, 2),
-                "📅 Tuổi": age,
-                "⚧️ Giới tính": "Nam" if sex == "male" else "Nữ",
-                "⚖️ BMI": bmi,
-                "👶 Số con": children,
-                "🚬 Hút thuốc": "Có" if smoker == "yes" else "Không",
-                "🌍 Khu vực": {
+                "Thời gian": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "Dự đoán chi phí ($)": round(prediction, 2),
+                "Tuổi": age,
+                "Giới tính": "Nam" if sex == "male" else "Nữ",
+                "BMI": bmi,
+                "Số con": children,
+                "Hút thuốc": "Có" if smoker == "yes" else "Không",
+                "Khu vực": {
                     "southeast": "Đông Nam",
                     "southwest": "Tây Nam",
                     "northeast": "Đông Bắc",
@@ -308,3 +308,4 @@ def run_medical_cost_app():
     
             </div>
             """, unsafe_allow_html=True)
+
