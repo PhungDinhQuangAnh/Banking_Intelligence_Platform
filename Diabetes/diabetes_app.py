@@ -23,7 +23,7 @@ def run_diabetes_app():
     model = joblib.load(MODEL_PATH)
 
     # --- 3. Form nhập liệu người dùng ---
-    st.subheader("📋 Nhập thông tin sức khỏe:")
+    st.subheader("Nhập thông tin sức khỏe:")
     with st.form("input_form"):
         with st.expander("‍🧍**Thông tin cá nhân**"):
             col1, col2 = st.columns(2)
@@ -76,7 +76,7 @@ def run_diabetes_app():
             with col9:
                 AnyHealthcare = st.radio("Có bảo hiểm y tế hoặc nguồn thanh toán chăm sóc sức khỏe?", ["Không", "Có"])
 
-        submitted = st.form_submit_button("🔍 **Dự đoán**")
+        submitted = st.form_submit_button("**Dự đoán**")
 
     # --- 4. Dự đoán ---
     if submitted:
@@ -139,12 +139,12 @@ def run_diabetes_app():
 
         # --- 5. Gauge hiển thị phần trăm nguy cơ ---
         st.markdown("<br>", unsafe_allow_html=True)
-        st.subheader("📈 Kết quả dự đoán:")
+        st.subheader("Kết quả dự đoán:")
         fig = go.Figure(go.Indicator(
-            mode="gauge+number",
-            value=round(proba * 100, 2),
-            title={'text': "Nguy cơ mắc bệnh tiểu đường (%)"},
-            gauge={
+            mode = "gauge+number",
+            value = round(proba * 100, 2),
+            title = {'text': "Nguy cơ mắc bệnh tiểu đường (%)"},
+            gauge = {
                 'axis': {'range': [0, 100]},
                 'steps': [
                     {'range': [0, 40], 'color': "lightgreen"},
@@ -174,36 +174,36 @@ def run_diabetes_app():
 
         # 7_2. Nếu form đã submit, thêm dòng mới vào lịch sử
         record = {
-            "🕒 Thời gian": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "📈 Xác suất (%)": round(proba * 100, 2),
-            "👤 Giới tính": Sex,
-            "👵 Tuổi": Age,
-            "🎓 Trình độ học vấn": Education,
-            "💰 Thu nhập": Income,
-            "💓 Huyết áp cao": HighBP,
-            "🧬 Mỡ máu cao": HighChol,
-            "❤️ Bệnh tim": HeartDiseaseorAttack,
-            "🧠 Đột quỵ": Stroke,
-            "⚖️ BMI": BMI,
-            "🩺 Sức khỏe tổng quát": GenHlth,
-            "🤒 Ngày thể chất không khỏe": PhysHlth,
-            "😟 Ngày tâm lý không ổn": MentHlth,
-            "🏃 Hoạt động thể chất": PhysActivity,
-            "🚬 Hút thuốc": Smoker,
-            "🍺 Uống rượu nhiều": HvyAlcoholConsump,
-            "🍎 Ăn trái cây": Fruits,
-            "🥦 Ăn rau củ": Veggies,
-            "🚶‍♂️ Khó khăn đi lại": DiffWalk,
-            "🧪 Đã kiểm tra Cholesterol": CholCheck,
-            "💸 Không đi khám vì chi phí": NoDocbcCost,
-            "🏥 Có bảo hiểm y tế": AnyHealthcare
+            "Thời gian": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "Xác suất (%)": round(proba * 100, 2),
+            "Giới tính": Sex,
+            "Tuổi": Age,
+            "Trình độ học vấn": Education,
+            "Thu nhập": Income,
+            "Huyết áp cao": HighBP,
+            "Mỡ máu cao": HighChol,
+            "Bệnh tim": HeartDiseaseorAttack,
+            "Đột quỵ": Stroke,
+            "BMI": BMI,
+            "Sức khỏe tổng quát": GenHlth,
+            "Ngày thể chất không khỏe": PhysHlth,
+            "Ngày tâm lý không ổn": MentHlth,
+            "Hoạt động thể chất": PhysActivity,
+            "Hút thuốc": Smoker,
+            "Uống rượu nhiều": HvyAlcoholConsump,
+            "Ăn trái cây": Fruits,
+            "Ăn rau củ": Veggies,
+            "Khó khăn đi lại": DiffWalk,
+            "Đã kiểm tra Cholesterol": CholCheck,
+            "Không đi khám vì chi phí": NoDocbcCost,
+            "Có bảo hiểm y tế": AnyHealthcare
         }
         st.session_state["diabetes_history"].append(record)
 
         # 7_3. Hiển thị lịch sử dự đoán (gồm cả bản mới nhất)
         if st.session_state["diabetes_history"]:
             st.markdown("<br>", unsafe_allow_html=True)
-            st.subheader("📜 Lịch sử dự đoán")
+            st.subheader("Lịch sử dự đoán")
             df_history = pd.DataFrame(st.session_state["diabetes_history"])
 
             # Tô đậm dòng cuối (mới nhất)
@@ -217,33 +217,33 @@ def run_diabetes_app():
 
         # --- 8. Đánh giá hiệu suất mô hình ---
         st.markdown("<br>", unsafe_allow_html=True)
-        st.subheader("🚀 Hiệu suất mô hình")
+        st.subheader("Hiệu suất mô hình")
 
         # 8_1. Confusion Matrix
-        with st.expander("📊 **Confusion Matrix**"):
+        with st.expander("**Confusion Matrix**"):
             col1, col2 = st.columns(2)
             with col1:
                 st.image(CONFUSION_MATRIX_PATH)
             with col2:
                 st.markdown("""
-                    <h5>📋 Diễn giải kết quả:</h5>
+                    <h5>Diễn giải kết quả:</h5>
                     <ul>
-                      <li>✅ Dự đoán đúng người KHÔNG mắc bệnh: <b>5.049 người</b>
-                      <li>🧍 Dự đoán đúng người CÓ bệnh: <b>5.659 người</b>
-                      <li>⚠️ Dự đoán nhầm người khỏe là có bệnh: <b>2.041 người</b>
-                      <li>❌ Bỏ sót người bệnh (dự đoán là khỏe): <b>1.390 người</b>
+                      <li>Dự đoán đúng người KHÔNG mắc bệnh: <b>5.049 người</b>
+                      <li>Dự đoán đúng người CÓ bệnh: <b>5.659 người</b>
+                      <li>Dự đoán nhầm người khỏe là có bệnh: <b>2.041 người</b>
+                      <li>Bỏ sót người bệnh (dự đoán là khỏe): <b>1.390 người</b>
                     </ul>
     
-                    <h5>🧠 Kết luận:</h5>
+                    <h5>Kết luận:</h5>
                     <ul>
-                        <li>📈 Tổng số dự đoán đúng: <b>10.708 / 14.139 → ~76% chính xác</b>
-                        <li>🔍 Mô hình <b>phát hiện khá tốt người bệnh</b>, giúp cảnh báo sớm nguy cơ.
-                        <li>👩‍⚕️ Tuy nhiên, vẫn có sai sót nên <b>người dùng nên đi khám để xác nhận</b> nếu kết quả là <b>“nguy cơ cao”</b>.
+                        <li>Tổng số dự đoán đúng: <b>10.708 / 14.139 → ~76% chính xác</b>
+                        <li>Mô hình <b>phát hiện khá tốt người bệnh</b>, giúp cảnh báo sớm nguy cơ.
+                        <li>Tuy nhiên, vẫn có sai sót nên <b>người dùng nên đi khám để xác nhận</b> nếu kết quả là <b>“nguy cơ cao”</b>.
                     </ul>
                     """, unsafe_allow_html=True)
 
         # 8_2. Classification Report
-        with st.expander("📋 **Classification Report**"):
+        with st.expander("**Classification Report**"):
             # Đọc dữ liệu từ file CSV
             report_df = pd.read_csv(CLASSIFICATION_REPORT_PATH, index_col=0)
             report_df.rename(index={
@@ -266,24 +266,24 @@ def run_diabetes_app():
 
             # Phân tích dễ hiểu
             st.markdown("""
-                <h5>📊 Phân tích chi tiết:</h5>
+                <h5>Phân tích chi tiết:</h5>
                 <ul>
-                    <li>👤 <b>Không mắc bệnh (Class 0):</b>
+                    <li><b>Không mắc bệnh (Class 0):</b>
                     <ul>
-                        <li>📏 Precision: {:.0f}% → Trong số dự đoán là <i>không mắc bệnh</i>, có {:.0f}% là đúng.
-                        <li>🎯 Recall: {:.0f}% → Trong số <i>thực sự không mắc bệnh</i>, mô hình phát hiện đúng {:.0f}%.
+                        <li>Precision: {:.0f}% → Trong số dự đoán là <i>không mắc bệnh</i>, có {:.0f}% là đúng.
+                        <li>Recall: {:.0f}% → Trong số <i>thực sự không mắc bệnh</i>, mô hình phát hiện đúng {:.0f}%.
                     </ul>
-                    <li>❤️ <b>Có bệnh (Class 1):</b>
+                    <li><b>Có bệnh (Class 1):</b>
                     <ul>
-                        <li>📏 Precision: {:.0f}% → Trong số dự đoán là <i>có bệnh</i>, có {:.0f}% là đúng.
-                        <li>🎯 Recall: {:.0f}% → Trong số <i>thực sự mắc bệnh</i>, mô hình phát hiện đúng {:.0f}%.
+                        <li>Precision: {:.0f}% → Trong số dự đoán là <i>có bệnh</i>, có {:.0f}% là đúng.
+                        <li>Recall: {:.0f}% → Trong số <i>thực sự mắc bệnh</i>, mô hình phát hiện đúng {:.0f}%.
                     </ul>
                 </ul>
-                <h5>📈 Tổng thể:</h5>
+                <h5>Tổng thể:</h5>
                 <ul>
-                    <li>✅ Accuracy (độ chính xác tổng thể): {:.0f}%
-                    <li>⚖️ Mô hình có độ cân bằng tốt (F1-score trung bình ≈ {:.0f}%)
-                    <li>🔍 Ưu tiên phát hiện đúng người có bệnh hơn → phù hợp cho mục tiêu sàng lọc nguy cơ.
+                    <li>Accuracy (độ chính xác tổng thể): {:.0f}%
+                    <li>Mô hình có độ cân bằng tốt (F1-score trung bình ≈ {:.0f}%)
+                    <li>Ưu tiên phát hiện đúng người có bệnh hơn → phù hợp cho mục tiêu sàng lọc nguy cơ.
                 </ul>
                 """.format(
                 report_df.loc["Không mắc bệnh (Class 0)", "precision"] * 100,
@@ -302,12 +302,12 @@ def run_diabetes_app():
 
         # --- 9. Thông tin thêm ---
         st.markdown("<br>", unsafe_allow_html=True)
-        st.subheader("📘 Thông tin thêm")
-        with st.expander("📖 **Xem chi tiết**"):
+        st.subheader("Thông tin thêm")
+        with st.expander("**Xem chi tiết**"):
             st.markdown("""
             <div style='font-size: 16px; line-height: 1.7; color: #333;'>
     
-            <h5>🧠 Về ứng dụng này</h5> 
+            <h5>Về ứng dụng này</h5> 
             <p>Ứng dụng giúp bạn <b>ước lượng nguy cơ mắc bệnh tiểu đường loại 2</b> dựa trên thông tin sức khỏe cá nhân bạn cung cấp.</p>
             <p>Kết quả là <b>một tỉ lệ phần trăm (%)</b> — càng cao thì nguy cơ mắc bệnh càng lớn.</p>
     
@@ -317,20 +317,20 @@ def run_diabetes_app():
     
             <hr>
     
-            <h5>📚 Bộ dữ liệu</h5>
+            <h5>Bộ dữ liệu</h5>
             <ul>
-                <li>🌐 Bộ dữ liệu mô hình sử dụng trên nền tảng Kaggle: 
+                <li>Bộ dữ liệu mô hình sử dụng trên nền tảng Kaggle: 
                     <a href="https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset" target="_blank"><b>Xem tại đây</b></a>.</li>
-                <li>📊 Dữ liệu sử dụng là từ file <b>diabetes_binary_5050split_health_indicators_BRFSS2015.csv</b> trong bộ dữ liệu này.</li>
-                <li>🔍 Dữ liệu được thu thập từ khảo sát <b>BRFSS 2015</b> – chương trình giám sát các yếu tố rủi ro hành vi qua điện thoại do <b>Trung tâm Kiểm soát và Phòng ngừa Dịch bệnh Hoa Kỳ (CDC)</b> thực hiện.</li>
+                <li>Dữ liệu sử dụng là từ file <b>diabetes_binary_5050split_health_indicators_BRFSS2015.csv</b> trong bộ dữ liệu này.</li>
+                <li>Dữ liệu được thu thập từ khảo sát <b>BRFSS 2015</b> – chương trình giám sát các yếu tố rủi ro hành vi qua điện thoại do <b>Trung tâm Kiểm soát và Phòng ngừa Dịch bệnh Hoa Kỳ (CDC)</b> thực hiện.</li>
                 <div style="background-color: #f0f9ff; padding: 12px; border-left: 5px solid #3498db; border-radius: 5px; margin-top: 10px;">
-                💱 <b>Chú thích:</b> Biến dữ liệu <b>thu nhập</b> đã được điều chỉnh theo <b>sức mua tương đương (Purchasing Power Parity - PPP)</b> trên form nhập liệu trên để phản ánh mức sống tại Việt Nam. Việc chuẩn hóa này giúp mô hình dự đoán chính xác hơn trong bối cảnh kinh tế – xã hội địa phương.
+                <b>Chú thích:</b> Biến dữ liệu <b>thu nhập</b> đã được điều chỉnh theo <b>sức mua tương đương (Purchasing Power Parity - PPP)</b> trên form nhập liệu trên để phản ánh mức sống tại Việt Nam. Việc chuẩn hóa này giúp mô hình dự đoán chính xác hơn trong bối cảnh kinh tế – xã hội địa phương.
                 </div>
             </ul>
     
             <hr>
     
-            <h5>⚙️ Ứng dụng hoạt động thế nào?</h5>
+            <h5>Ứng dụng hoạt động thế nào?</h5>
             <ol>
                 <li>Bạn nhập các thông tin về tuổi, chỉ số cơ thể, hành vi sức khỏe,...</li>
                 <li>Mô hình <b>XGBClassifier</b> được huấn luyện với <b>bộ dữ liệu</b> sẽ phân tích và dự đoán nguy cơ.</li>
@@ -339,16 +339,13 @@ def run_diabetes_app():
     
             <hr>
     
-            <h5>🎯 Mục tiêu</h5>
+            <h5>Mục tiêu</h5>
             <p>Giúp bạn <b>nhận biết nguy cơ sớm hơn</b>, từ đó:</p>
             <ul>
-                <li>🧘‍♂️ Chủ động thay đổi lối sống</li>
-                <li>🏥 Tăng cường khám sức khỏe định kỳ</li>
-                <li>🛡️ Góp phần phòng ngừa bệnh tiểu đường một cách hiệu quả</li>
+                <li>Chủ động thay đổi lối sống</li>
+                <li>Tăng cường khám sức khỏe định kỳ</li>
+                <li>Góp phần phòng ngừa bệnh tiểu đường một cách hiệu quả</li>
             </ul>
     
             </div>
             """, unsafe_allow_html=True)
-
-
-
