@@ -1,22 +1,22 @@
-<h1 align="center">🤖 AI Health</h1>
+<h1 align="center">AI Health</h1>
 
-[![Streamlit App](https://img.shields.io/badge/🧪_Truy%20cập%20ứng%20dụng%20trực%20tuyến-Click%20here-brightgreen)](https://ai-health.streamlit.app/)
+[![Streamlit App](https://img.shields.io/badge/Truy%20cập%20ứng%20dụng%20trực%20tuyến-Click%20here-brightgreen)](https://ai-health.streamlit.app/)
 
-AI Health là ứng dụng Web tương tác được xây dựng bằng Python & Streamlit nhằm hỗ trợ **dự đoán chi phí y tế** và **nguy cơ mắc bệnh** dựa trên thông tin cá nhân bằng các mô hình **Machine Learning**. 
-
----
-
-## 🚀 Chức năng chính
-
-- 🧮 Ước tính **chi phí y tế hằng năm** mà bảo hiểm chi trả (Hoa Kỳ) – *Regression*
-- 💉 Dự đoán **khả năng mắc bệnh tiểu đường** – *Classification*
-- ❤️ Dự đoán **nguy cơ mắc bệnh tim mạch** – *Classification*
-- 📊 Trực quan hiệu suất mô hình bằng **biểu đồ hiệu suất mô hình**, **bảng chỉ số đánh giá** (Accuracy, Precision, Recall, F1, R2,...)
-- 🧠 Trực quan hóa dự đoán bằng giao diện người dùng đơn giản, dễ sử dụng
+AI Health là ứng dụng Web tương tác được xây dựng bằng Python & Streamlit nhằm hỗ trợ **dự đoán chi phí y tế** và **nguy cơ mắc bệnh** dựa trên thông tin cá nhân bằng các mô hình **Machine Learning**.
 
 ---
 
-## 🖼️ Giao diện demo
+## Chức năng chính
+
+- Ước tính **chi phí y tế hằng năm** mà bảo hiểm chi trả (Hoa Kỳ) – *Regression*
+- Dự đoán **khả năng mắc bệnh tiểu đường** – *Classification*
+- Dự đoán **nguy cơ mắc bệnh tim mạch** – *Classification*
+- Trực quan hiệu suất mô hình bằng **biểu đồ hiệu suất mô hình**, **bảng chỉ số đánh giá** (Accuracy, Precision, Recall, F1, R2,...)
+- Trực quan hóa dự đoán bằng giao diện người dùng đơn giản, dễ sử dụng
+
+---
+
+## Giao diện demo
 
 <p align="center">
   <img src="https://github.com/PhungDinhQuangAnh/ai-health/blob/main/Demo/demo1.png" alt="Giao diện demo">
@@ -25,7 +25,7 @@ AI Health là ứng dụng Web tương tác được xây dựng bằng Python &
 
 ---
 
-## 🧠 Mô hình & Dữ liệu
+## Mô hình & Dữ liệu
 
 | Bài toán             | Dataset                                                                                          | Mô hình sử dụng   |
 |---------------------|--------------------------------------------------------------------------------------------------|-------------------|
@@ -35,7 +35,7 @@ AI Health là ứng dụng Web tương tác được xây dựng bằng Python &
 
 ---
 
-## 📁 Cấu trúc dự án
+## Cấu trúc dự án
 <pre>  
 AI_Health/
 ├── app.py                      # App chính - giao diện chọn mô hình
@@ -83,7 +83,7 @@ AI_Health/
 
 ---
 
-## 🛠️ Công nghệ sử dụng
+## Công nghệ sử dụng
 
 - **Ngôn ngữ:** Python
 - **Web UI:** streamlit
@@ -93,22 +93,8 @@ AI_Health/
 
 ---
 
-## ▶️ Cách chạy ứng dụng
+## Cách chạy ứng dụng
 
-### Cách 1: Truy cập ứng dụng online
+### Truy cập ứng dụng online
 
 🔗 https://ai-health.streamlit.app/
-
-### Cách 2: Chạy cục bộ (local)
-
-```bash
-# Clone repo về máy
-git clone https://github.com/PhungDinhQuangAnh/AI_Health.git
-cd AI_Health
-
-# Cài thư viện
-pip install -r requirements.txt
-
-# Chạy ứng dụng
-streamlit run app.py
-```
