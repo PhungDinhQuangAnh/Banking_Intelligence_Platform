@@ -500,7 +500,7 @@ def run_credit_card_app():
                 yaxis_title="Giá trị trung bình ($)"
             )
 
-            st.plotly_chart(mini_fig, use_container_width=True)
+            st.plotly_chart(mini_fig, width='stretch')
 
     # 3_2. TAB Dự đoán
     with tab_prediction:
@@ -813,7 +813,7 @@ def run_credit_card_app():
                 <span style="font-weight: 700; color: #475569; font-size: 14px;">Elbow Method - Tập Số Đông (Normal) ➔ K = 3</span>
             </div>
             """, unsafe_allow_html=True)
-            st.image(ELBOW_NORMAL_PATH, use_container_width=True)
+            st.image(ELBOW_NORMAL_PATH, width='stretch')
 
         with col_el2:
             st.markdown("""
@@ -822,7 +822,7 @@ def run_credit_card_app():
                 <span style="font-weight: 700; color: #475569; font-size: 14px;">Elbow Method - Tập Ngoại Lai (Outliers) ➔ K = 3</span>
             </div>
             """, unsafe_allow_html=True)
-            st.image(ELBOW_OUTLIER_PATH, use_container_width=True)
+            st.image(ELBOW_OUTLIER_PATH, width='stretch')
 
         # Bước 2
         st.markdown("""
