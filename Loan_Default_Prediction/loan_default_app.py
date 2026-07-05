@@ -1,0 +1,450 @@
+import streamlit as st
+import pandas as pd
+import plotly.graph_objects as go
+import joblib
+from datetime import datetime
+import os
+
+def run_loan_default_app():
+    # Lấy các đường dẫn
+    APP_DIR = os.path.dirname(os.path.abspath(__file__))
+    MODEL_PATH = os.path.join(APP_DIR, "model", "loan_default_model.pkl")
+    CLASSIFICATION_REPORT_PATH = os.path.join(APP_DIR, "report", "loan_default_classification_report.csv")
+    CONFUSION_MATRIX_PATH = os.path.join(APP_DIR, "report", "loan_default_confusion_matrix.jpg")
+
+    # --- 1. Tiêu đề trang ---
+    st.markdown(
+    """
+    <h1 style="text-align: center; background: linear-gradient(to right, #60A5FA, #2563EB, #1E3A8A); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; margin: 0 0 20px 0; letter-spacing: -0.02em;">
+        Thẩm Định Rủi Ro & Duyệt Hồ Sơ Vay Vốn
+    </h1>
+    """, 
+    unsafe_allow_html=True
+    )
+    st.markdown("---")
+
+    # --- 2. Load mô hình ---
+    model = joblib.load(MODEL_PATH)
+
+    # --- 3. Form nhập liệu người dùng ---
+    st.subheader("Nhập thông tin khách hàng")
+    with st.form("input_form"):
+        tab1, tab2, tab3, tab4 = st.tabs([
+            "▥ **Chi tiết Khoản vay**",
+            "▣ **Thông tin Định danh**",
+            "▧ **Năng lực Tài chính**",
+            "▤ **Lịch sử Tín dụng**"
+        ])
+
+        # --- TAB 1: Chi tiết Khoản vay ---
+        with tab1:
+            col1, col2 = st.columns(2)
+            with col1:
+                LoanAmount = st.number_input("Số tiền vay (Loan Amount - $)", min_value=5000, value=15000, max_value=249999, step=1, icon=":material/attach_money:")
+                LoanTerm = st.number_input("Kỳ hạn vay (Loan Term - Tháng)", min_value=12, max_value=60, value=24, step=12, icon=":material/calendar_month:")
+            with col2:
+                LoanPurpose = st.selectbox("Mục đích vay (Loan Purpose)", ["Vay mua nhà (Home)", "Vay mua ô tô (Auto)", "Vay học tập / Du học (Education)", "Vay sản xuất kinh doanh (Business)", "Mục đích tiêu dùng khác (Other)"])
+                HasMortgage = st.selectbox("Đang có khoản vay thế chấp khác? (Has Mortgage)", ["Có", "Không"])
+            InterestRate = st.slider("Lãi suất áp dụng (Interest Rate - %)", min_value=2.0, max_value=25.0, value=5.05, step=0.01, format="%.2f %%")
+
+        # --- TAB 2: Thông tin Định danh ---
+        with tab2:
+            col1, col2 = st.columns(2)
+            with col1:
+                MaritalStatus = st.selectbox("Tình trạng hôn nhân (Marital Status)", ["Độc thân", "Kết hôn", "Đã ly hôn"]) 
+                Education =  st.selectbox("Học vấn (Education)", ["Trung học Phổ thông (High School)", "Cử nhân / Kỹ sư (Bachelor's)", "Thạc sĩ (Master's)", "Tiến sĩ (PhD)"])   
+            with col2:
+                HasDependents = st.selectbox("Có người thân phụ thuộc? (Con cái,...) (Has Dependents)", ["Có", "Không"])
+                HasCoSigner = st.selectbox("Có người đồng ký tên/bảo lãnh không? (Has Cosigner)", ["Có", "Không"])
+            Age = st.slider("Tuổi (Age)", min_value=18, max_value=69, value=30, step=1) 
+
+        # --- TAB 3: Năng lực Tài chính---
+        with tab3:
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                Income = st.number_input("Tổng thu nhập hàng năm", min_value=15000, max_value=149999, value=30000, step=1, icon=":material/attach_money:", help="Tổng thu nhập trước thuế trong một năm")
+            with col2:
+                MonthsEmployed = st.number_input("Thâm niên làm việc theo tháng", min_value=0, max_value=119, value=50, step=1, icon=":material/calendar_month:", help="Số tháng làm việc liên tục tại công ty hiện tại")
+            with col3:
+                EmploymentType = st.selectbox("Loại hình công việc", ["Full-time", "Part-time", "Self-employed", "Unemployed"], help="Hình thức hợp đồng lao động hiện tại")
+
+        # --- TAB 4: Lịch sử Tín dụng ---
+        with tab4:
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                CreditScore = st.number_input("Điểm tín dụng (Credit Score)", min_value=300, max_value=849, value=650, step=1, icon=":material/credit_score:")
+            with col2:
+                NumCreditLines = st.number_input("Số thẻ đang mở (Num Credit Lines)", min_value=1, max_value=4, value=2, step=1, icon=":material/credit_card:")
+            with col3:
+                DTIRatio = st.number_input("Tỷ lệ Nợ/Thu nhập (DTI Ratio)", min_value=0.1, max_value=0.9, value=0.3, step=0.01, icon=":material/balance:")
+
+        submitted = st.form_submit_button("**Dự đoán**")
+    
+    # --- 4. Dự đoán & Hiển thị kết quả ---
+    # Khởi tạo session_state cho lịch sử tín dụng
+    if "loan_history" not in st.session_state:
+        st.session_state["loan_history"] = []
+    proba = None
+
+    if submitted:
+        # 4_1. Mapping giá trị về dạng mô hình đã học
+        yes_no_map = {"Không": "No", "Có": "Yes"}
+        
+        MaritalStatus_map = {
+            "Độc thân": "Single", 
+            "Kết hôn": "Married", 
+            "Đã ly hôn": "Divorced"
+        }
+        
+        Education_map = {
+            "Trung học Phổ thông (High School)": "High School",
+            "Cử nhân / Kỹ sư (Bachelor's)": "Bachelor's",
+            "Thạc sĩ (Master's)": "Master's",
+            "Tiến sĩ (PhD)": "PhD"
+        }
+        
+        LoanPurpose_map = {
+            "Vay mua nhà (Home)": "Home",
+            "Vay mua ô tô (Auto)": "Auto",
+            "Vay học tập / Du học (Education)": "Education",
+            "Vay sản xuất kinh doanh (Business)": "Business",
+            "Mục đích tiêu dùng khác (Other)": "Other"
+        }
+
+        # 4_2. Tạo dictionary cho dữ liệu đầu vào
+        input_data = {
+            "Age": Age,
+            "Income": Income,
+            "LoanAmount": LoanAmount,
+            "CreditScore": CreditScore,
+            "MonthsEmployed": MonthsEmployed,
+            "NumCreditLines": NumCreditLines,
+            "InterestRate": InterestRate,
+            "LoanTerm": LoanTerm,
+            "DTIRatio": DTIRatio,
+            "Education": Education_map[Education],
+            "EmploymentType": EmploymentType,
+            "MaritalStatus": MaritalStatus_map[MaritalStatus],
+            "HasMortgage": yes_no_map[HasMortgage], 
+            "HasDependents": yes_no_map[HasDependents],
+            "LoanPurpose": LoanPurpose_map[LoanPurpose],
+            "HasCoSigner": yes_no_map[HasCoSigner]           
+        }
+        input_df = pd.DataFrame([input_data])
+        
+        # 4_3. Dự đoán xác suất vỡ nợ
+        proba = model.predict_proba(input_df)[0][1]
+
+        # 4_4. Lưu vào lịch sử dự đoán
+        record = {
+            "Thời gian": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "Xác suất (%)": round(proba * 100, 2),
+            "Tuổi": Age,
+            "Thu nhập hàng năm ($)": Income,
+            "Số tiền vay ($)": LoanAmount,
+            "Điểm tín dụng": CreditScore,
+            "Thâm niên (tháng)": MonthsEmployed,
+            "Số khoản vay đang mở": NumCreditLines,
+            "Lãi suất (%)": InterestRate,
+            "Kỳ hạn (tháng)": LoanTerm,
+            "Tỷ lệ Nợ/Thu nhập": DTIRatio,
+            "Học vấn": Education,
+            "Loại hình công việc": EmploymentType,
+            "Tình trạng hôn nhân": MaritalStatus,
+            "Đang vay thế chấp khác?": HasMortgage, 
+            "Có người phụ thuộc?": HasDependents,
+            "Mục đích vay": LoanPurpose,
+            "Có người bảo lãnh?": HasCoSigner 
+        }
+        st.session_state["loan_history"].append(record)
+
+    # --- ĐƯA PHẦN HIỂN THỊ RA NGOÀI FORM ĐỂ GIAO DIỆN RỘNG RÃI, ĐẸP MẮT ---
+    if proba is not None:
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.subheader("Kết quả phân tích")
+        
+        # Xác định nhóm màu sắc và nội dung thông báo dựa trên xác suất rủi ro
+        if proba < 0.17:
+            bg_color = "#E8F8F5"
+            border_color = "#2ECC71"
+            text_color = "#196F3D"
+            status_title = "HỒ SƠ ĐỦ ĐIỀU KIỆN (AN TOÀN)"
+            status_desc = "✅ <b>Khuyến nghị:</b> Nên chấp nhận duyệt giải ngân khoản vay. Khách hàng có điểm uy tín tốt và các chỉ số tài chính nằm trong ngưỡng an toàn."
+            bar_color = "#27AE60"
+        elif proba <= 0.75:
+            bg_color = "#FEF9E7"
+            border_color = "#F4D03F"
+            text_color = "#7D6608"
+            status_title = "HỒ SƠ CẦN THẨM ĐỊNH THÊM (RỦI RO TRUNG BÌNH)"
+            status_desc = "⚠️ <b>Khuyến nghị:</b> Nên chuyển hồ sơ sang bước kiểm tra thủ công. Cần yêu cầu bổ sung chứng minh thu nhập hoặc tài sản bảo đảm..."
+            bar_color = "#F39C12"
+        else:
+            bg_color = "#FDEDEC"
+            border_color = "#EC7063"
+            text_color = "#78281F"
+            status_title = "HỒ SƠ BỊ TỪ CHỐI (RỦI RO CAO)"
+            status_desc = "❗ <b>Khuyến nghị:</b> Nên từ chối phê duyệt khoản vay. Xác suất xảy ra vỡ nợ hoặc nợ xấu vượt mức chịu đựng rủi ro của doanh nghiệp."
+            bar_color = "#C0392B"
+
+        # Thiết kế khối thông tin kết quả dạng Banner
+        st.markdown(f"""
+            <div style="background-color:{bg_color}; border-left: 6px solid {border_color}; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                <h4 style="color:{text_color}; margin-top:0;">{status_title}</h4>
+                <p style="color:{text_color}; font-size: 15px; margin-bottom:0;">{status_desc}</p>
+            </div>
+        """, unsafe_allow_html=True)
+
+        # Chia layout: Bên trái đặt biểu đồ Gauge, Bên phải đặt các chỉ số tóm tắt nhanh
+        res_col1, res_col2 = st.columns([5, 5])
+        
+        with res_col1:
+            fig = go.Figure(go.Indicator(
+                mode = "gauge+number",
+                value = round(proba * 100, 2),
+                number = {'suffix': "%", 'font': {'size': 44, 'color': '#2C3E50', 'family': 'Arial'}},
+                title = {'text': "Xác suất khách hàng vỡ nợ dự báo", 'font': {'size': 16, 'color': '#5D6D7E'}},
+                gauge = {
+                    'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "#BDC3C7"},
+                    'bar': {'color': bar_color}, # Màu thanh kim sẽ thay đổi động theo kết quả phân loại
+                    'bgcolor': "#F4F6F7",
+                    'borderwidth': 0,
+                    'steps': [
+                        {'range': [0, 17], 'color': '#D4EFDF'},  # Xanh pastel nhạt
+                        {'range': [17, 75], 'color': '#FCF3CF'}, # Vàng pastel nhạt
+                        {'range': [75, 100], 'color': '#FADBD8'} # Đỏ pastel nhạt
+                    ]
+                }
+            ))
+            fig.update_layout(height=260, margin=dict(l=20, r=20, t=40, b=20, pad=0))
+            st.plotly_chart(fig, width='stretch')
+            
+        with res_col2:
+            st.markdown(f"""
+                <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 18px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; margin-top: 15px; margin-left: 10px; margin-right: 10px">
+                    <div style="display: flex; flex-direction: column;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F1F5F9;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span class="material-icons" style="color: {bar_color}; font-size: 18px; font-family: 'Material Icons' !important;">speed</span>
+                                <span style="font-size: 13.5px; color: #334155; font-weight: 500;">Mức độ rủi ro</span>
+                            </div>
+                            <span style="font-size: 14px; font-weight: 700; color: {text_color};">{proba * 100:.2f}%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F1F5F9;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span class="material-icons" style="color: #64748B; font-size: 18px; font-family: 'Material Icons' !important;">account_balance_wallet</span>
+                                <span style="font-size: 13.5px; color: #334155; font-weight: 500;">Chỉ số Nợ/Thu nhâp (DTI)</span>
+                            </div>
+                            <span style="font-size: 13px; font-weight: 700; color: #0F172A; background: #F1F5F9; padding: 2px 8px; border-radius: 6px; border: 1px solid #E2E8F0;">{DTIRatio}</span>
+                        </div>  
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F1F5F9;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span class="material-icons" style="color: #64748B; font-size: 18px; font-family: 'Material Icons' !important;">attach_money</span>
+                                <span style="font-size: 13.5px; color: #334155; font-weight: 500;">Số tiền vay</span>
+                            </div>
+                            <span style="font-size: 14px; font-weight: 700; color: #0F172A; letter-spacing: -0.01em;">${LoanAmount:,}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0 4px 0;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span class="material-icons" style="color: #64748B; font-size: 18px; font-family: 'Material Icons' !important;">calendar_today</span>
+                                <span style="font-size: 13.5px; color: #334155; font-weight: 500;">Kỳ hạn</span>
+                            </div>
+                            <span style="font-size: 12px; font-weight: 600; color: #2563EB; background: #EFF6FF; padding: 2px 8px; border-radius: 6px; border: 1px solid #DBEAFE;">{LoanTerm} tháng</span>
+                        </div>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+    
+    # --- 5. Hiển thị lịch sử dự đoán ---
+    if st.session_state["loan_history"]:
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.subheader("Lịch sử phân tích")
+        df_history = pd.DataFrame(st.session_state["loan_history"])
+
+        # Hàm highlight dòng cuối cùng (bản ghi mới nhất) với tone xanh nhạt
+        def highlight_last(s):
+            return ['background-color: #EBF5FB' if i == len(s) - 1 else '' for i in range(len(s))]
+
+        st.dataframe(
+            df_history.style.apply(highlight_last, axis=0),
+            width='stretch'
+        )
+
+        # --- 6. Đánh giá hiệu suất mô hình ---
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.subheader("Hiệu suất mô hình")
+        with st.expander("**Xem chi tiết**"):
+            tab5, tab6 = st.tabs(["**Classification Report (Chỉ số chi tiết)**", "**Confusion Matrix (Số liệu chi tiết)**"])
+            
+            # --- 6_1. Classification Report ---
+            with tab5:
+                # Đọc dữ liệu từ file CSV
+                report_df = pd.read_csv(CLASSIFICATION_REPORT_PATH, index_col=0)
+                
+                # Lưu lại giá trị gốc để làm định dạng format text phía dưới trước khi rename index
+                p_0 = report_df.loc["0", "precision"] * 100
+                r_0 = report_df.loc["0", "recall"] * 100
+                p_1 = report_df.loc["1", "precision"] * 100
+                r_1 = report_df.loc["1", "recall"] * 100
+                acc = report_df.loc["accuracy", "precision"] * 100  # Accuracy nằm ở cột precision/f1-score như nhau
+
+                total_support = report_df.loc["macro avg", "support"]
+                report_df.loc["accuracy", "support"] = total_support
+
+                report_df.rename(index={
+                    "0": "Khách hàng không vỡ nợ (Class 0)",
+                    "1": "Khách hàng vỡ nợ (Class 1)",
+                    "accuracy": "Độ chính xác toàn cục (Accuracy)",
+                    "macro avg": "Trung bình cộng (Macro Avg)",
+                    "weighted avg": "Trung bình có trọng số (Weighted Avg)"
+                }, inplace=True)
+
+                # Thiết lập độ đậm chữ bằng CSS Style
+                styled_df = (
+                    report_df.style
+                    .format("{:.2f}", subset=["precision", "recall", "f1-score"])
+                    .format("{:,.0f}", subset=["support"])
+                    .set_properties(**{
+                        'font-weight': '600',       # Đẩy chữ toàn bảng đậm lên (mức 600)
+                        'color': '#2C3E50'          # Đổi màu chữ sang xanh đen đậm thay vì xám mờ
+                    })
+                )
+                st.dataframe(styled_df, width='stretch')
+
+                # Chia khối phân tích thành 2 bên trực quan
+                analysis_col1, analysis_col2 = st.columns(2)
+                
+                with analysis_col1:
+                    st.markdown(f"""
+                    <div style='background-color: #E8F8F5; padding: 15px; border-radius: 8px; border-top: 4px solid #2ECC71; height: 100%;'>
+                        <h6 style='color: #117864; margin-top:0;'><b>🟢 NHÓM KHÔNG VỠ NỢ (CLASS 0)</b></h6>
+                        <ul style='font-size: 15px; padding-left: 18px; margin-bottom:0;'>
+                            <li><b>Precision ({p_0:.0f}%):</b> Cứ mỗi <b>100</b> người được mô hình dự đoán là khách hàng an toàn (không vỡ nợ) thì đúng được <b>90</b> người - (sai 10 người).</li>
+                            <li><b>Recall ({r_0:.0f}%):</b> Trong mỗi <b>1000</b> người an toàn thực sự thì mô hình nhận diện được <b>970</b> người - (bỏ sót 30 người).</li>
+                        </ul>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                with analysis_col2:
+                    st.markdown(f"""
+                    <div style='background-color: #FDEDEC; padding: 15px; border-radius: 8px; border-top: 4px solid #E74C3C; height: 100%;'>
+                        <h6 style='color: #78281F; margin-top:0;'><b>🔴 NHÓM VỠ NỢ (CLASS 1)</b></h6>
+                        <ul style='font-size: 15px; padding-left: 18px; margin-bottom:0;'>
+                            <li><b>Precision ({p_1:.0f}%):</b> Cứ mỗi <b>100</b> người được mô hình dự đoán là khách hàng có nguy cơ vỡ nợ thì đúng được <b>44</b> người - (sai 56 người).</li>
+                            <li><b>Recall ({r_1:.0f}%):</b> Trong mỗi <b>1000</b> người vỡ nợ thực sự thì mô hình nhận diện được <b>200</b> người - (bỏ sót 800 người).</li>
+                        </ul>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                # Nhận xét về bài toán dữ liệu mất cân bằng cho báo cáo
+                st.markdown(f"""
+                <br>
+                <div style='background-color: #FEF9E7; padding: 15px; border-radius: 8px; border-left: 4px solid #F4D03F; margin-bottom: 20px;'>
+                    <h5 style='color: #7D6608; margin-top:0;'><b>⚠️ Nhận xét:</b></h5>
+                    <p style='font-size: 15px; margin-bottom: 0; line-height: 1.5;'>
+                        <ul>
+                            <li><b>Cơ chế phân loại mặc định:</b> Kết quả như bảng trên</b>.
+                            <ul style='padding-left: 18px'>
+                                <li>Nếu <b>xác suất khách hàng vỡ nợ >= 50%</b>, hồ sơ sẽ được xếp vào nhóm khách hàng vỡ nợ <b>(Class 1)</b>.</li>
+                                <li>Nếu <b> xác suất khách hàng vỡ nợ < 50%</b> thì hồ sơ sẽ được xếp vào nhóm khách hàng không vỡ nợ <b>(Class 0)</b>.</li>
+                            </ul>
+                            <li><b>Thách thức dữ liệu:</b> Dữ liệu nợ xấu rất ít (chỉ chiếm <b>11.6%</b> tổng số hồ sơ trong bộ dữ liệu).</li>
+                            <li><b>Hệ quả:</b> Mô hình bị thiên vị, xu hướng tập trung dự đoán nhóm an toàn (Class 0) và dễ bỏ sót các ca vỡ nợ thực tế (Class 1).</li>
+                            <li><b>Giải pháp 3 vùng quyết định:</b> Để khắc phục, thay vì để ngưỡng dự đoán mặc định là <b>50% vỡ nợ</b> và <b>50% không vỡ nợ</b>, thì mô hình chia thành 3 vùng kết quả với mục tiêu khác nhau:</li>
+                            <ul style='padding-left: 18px'>
+                                <li><b>Vùng An toàn (< 17%):</b> Độ chính xác >= 95%, tự động duyệt các hồ sơ an toàn.</li>
+                                <li><b>Vùng Từ chối (> 75%):</b> Đạt độ chính xác >= 70%, tự động loại bỏ các hồ sơ rủi ro cao.</li>
+                                <li><b>Vùng Thẩm định lại (17% - 75%)</b>: Gom các hồ sơ mập mờ còn lại để chuyển về duyệt tay, giải phóng hơn một nửa áp lực vận hành.</li>
+                            </ul>
+                        </ul>
+                    </p>
+                </div>
+                """, unsafe_allow_html=True)
+
+            # --- 6_2. Confusion Matrix ---
+            with tab6: 
+                    col1, col2 = st.columns([4, 6])
+                    with col1:
+                        st.image(CONFUSION_MATRIX_PATH, width='stretch')
+                    with col2:
+                        st.markdown("""
+                            <h5 style='color: #1B4F72'><b>Phân loại với ngưỡng 0.5 (Tập mẫu: 51,070 hồ sơ)</b></h5>
+                            <ul style='font-size: 15px; padding-left: 20px;'>
+                                <li><b>Duyệt đúng người tốt (43,592 ca):</b> Máy báo an toàn và thực tế họ trả nợ đầy đủ. Vùng này có thể cài đặt để <b>tự động duyệt</b>.</li>
+                                <li><b>Bắt trúng kẻ gian (1,215 ca):</b> Máy phát hiện chính xác khách hàng rủi ro cao và chặn lại kịp thời.</li>
+                                <li><span style='color: #E67E22;'><b>Nghi ngờ oan uổng (4,716 ca):</b></span> Khách hàng tốt nhưng máy đánh giá nhầm là rủi ro. Từ chối nhóm này sẽ <b>lãng phí cơ hội kinh doanh</b>.</li>
+                                <li><span style='color: #C0392B;'><b>Lọt lưới nợ xấu (1,547 ca):</b></span> Khách bùng nợ nhưng máy đánh giá nhầm là an toàn. Vùng này trực tiếp <b>gây mất vốn</b>.</li>
+                            </ul>
+                        """, unsafe_allow_html=True)
+                    # Khối phân tích bằng CSS thanh lịch
+                    st.markdown("""
+                    <div style='background-color: #F8F9F9; padding: 15px; border-radius: 8px; border-top: 4px solid #2980B9; margin-bottom: 20px;'>
+                        <h5 style='color: #1B4F72;'><b>Hiệu suất phân loại với 3 vùng quyết định (Tập mẫu: 51,070 hồ sơ):</b></h5>
+                        <div style='border-left: 4px solid #27AE60; background-color: #EAF2F8; padding: 12px; border-radius: 4px; margin-bottom: 12px;'>
+                            <span style='color: #27AE60; font-weight: bold; font-size: 15px;'>🟢 1. VÙNG CHẤP NHẬN (Xác suất rủi ro &lt; 0.17)</span>
+                            <ul style='font-size: 14px; padding-left: 20px; margin: 5px 0 0 0; line-height: 1.5; color: #2C3E50;'>
+                                <li><b>Hồ sơ giải ngân tự động:</b> 27,832 hồ sơ (chiếm <b>54.50%</b> tổng lượng hồ sơ).</li>
+                                <li><b>Độ chính xác thực tế:</b> <span style='color: #27AE60; font-weight: bold;'>95.13%</span> (Đáp ứng mục tiêu an toàn dòng vốn &ge; 95%).</li>
+                            </ul>
+                        </div>
+                        <div style='border-left: 4px solid #C0392B; background-color: #EAF2F8; padding: 12px; border-radius: 4px; margin-bottom: 12px;'>
+                            <span style='color: #C0392B; font-weight: bold; font-size: 15px;'>🔴 2. VÙNG TỪ CHỐI (Xác suất rủi ro &gt; 0.75)</span>
+                            <ul style='font-size: 14px; padding-left: 20px; margin: 5px 0 0 0; line-height: 1.5; color: #2C3E50;'>
+                                <li><b>Hồ sơ tự động loại bỏ:</b> 219 hồ sơ (chiếm <b>0.43%</b> lượng hồ sơ rủi ro cao mười mươi).</li>
+                                <li><b>Độ chính xác chặn nợ xấu:</b> <span style='color: #C0392B; font-weight: bold;'>72.60%</span> (Đáp ứng khẩu vị rủi ro tối ưu &ge; 70%).</li>
+                            </ul>
+                        </div>
+                        <div style='border-left: 4px solid #F39C12; background-color: #EAF2F8; padding: 12px; border-radius: 4px; margin-bottom: 0;'>
+                            <span style='color: #D35400; font-weight: bold; font-size: 15px;'>🟡 3. VÙNG CẢNH BÁO / THẨM ĐỊNH LẠI (Xác suất từ 0.17 đến 0.75)</span>
+                            <ul style='font-size: 14px; padding-left: 20px; margin: 5px 0 0 0; line-height: 1.5; color: #2C3E50;'>
+                                <li><b>Hồ sơ điều hướng duyệt tay:</b> 23,019 hồ sơ (chiếm <b>45.07%</b> tổng khối lượng đầu vào).</li>
+                                <li><b>Mục tiêu xử lý:</b> Gom toàn bộ <b>4,417 ca nợ xấu thực tế</b> còn sót lại vào không gian kiểm soát thủ công để con người bóc tách chuyên sâu, giải phóng hơn một nửa áp lực tự động hóa cho hệ thống.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+        # --- 7. Thông tin thêm ---
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.subheader("Thông tin thêm")
+        with st.expander("**Xem chi tiết**"):
+            st.markdown("""
+            <div style='font-size: 15px'>
+                <h5>Bộ dữ liệu</h5>
+                <ul>
+                    <li><b>Nguồn gốc:</b> Bộ dữ liệu được trích xuất từ cuộc thi thử thách công nghệ chính thức của <b>Coursera</b> và được chia sẻ lại trên nền tảng khoa học dữ liệu <a href="https://www.kaggle.com/datasets/nikhil1e9/loan-default" target="_blank"><b>Kaggle bởi tác giả Nikhil</b></a>.</li>
+                    <li><b>Quy mô:</b> Gồm <b>255,347 hồ sơ</b> khách hàng vay vốn.</li>
+                    <li><b>Mục đích:</b> Mô phỏng lại bài toán <b>Chấm điểm tín dụng (Credit Scoring)</b> kinh điển tại các ngân hàng thương mại: Dựa vào thông tin cá nhân và lịch sử tài chính để dự đoán xem ai sẽ trả nợ đúng hạn (0) và ai sẽ bùng nợ (1).</li>
+                    <li><b>Đặc điểm cốt lõi:</b> Bộ dữ liệu bị <b>mất cân bằng nghiêm trọng</b> khi tỷ lệ người bùng nợ chỉ chiếm <b>11.6%</b>. Điều này phản ánh hoàn hảo thực tế ngành tài chính (khách hàng tốt luôn chiếm đại đa số, nợ xấu luôn là thiểu số) và là bài toán kiểm tra năng lực sàng lọc rủi ro của AI.</li>
+                    <li><b>Tính thực tế & Hướng phát triển:</b> Do đặc thù ngành Ngân hàng tại Việt Nam bảo mật thông tin cực kỳ nghiêm ngặt, việc tiếp cận các bộ dữ liệu tín dụng nội địa công khai là rất khó khăn. Dù bộ dữ liệu hiện tại mang tính chất mô phỏng, nhưng <b>toàn bộ quy trình tiền xử lý (Pipeline), kỹ thuật xử lý mất cân bằng và thuật toán XGBoost</b> trong dự án này hoàn toàn có thể đóng gói để áp dụng trực tiếp cho bất kỳ tập dữ liệu thực tế nào. Hướng nghiên cứu tiếp theo của dự án sẽ là tối ưu hóa và thử nghiệm mô hình này trên các nguồn dữ liệu thực tế tại các tổ chức tài chính Việt Nam khi có cơ hội tiếp cận.</li>
+                </ul>
+                <hr> 
+                <h5>Mô hình</h5>
+                <ol>
+                    <li><b>Lựa chọn Thuật toán: Tại sao lại là XGBoost Classifier?</b></li>
+                        <ul style='font-size: 15px; padding-left: 20px;'>
+                            <li><b>Thử nghiệm đa mô hình:</b> Dự án không chọn ngay thuật toán mà đã thử nghiệm qua nhiều mô hình với thư viện <b>LazyPredict</b>, từ đó chọn ra các mô hình tối ưu nhất và tinh chỉnh tham số. <b>XGBoost</b> được lựa chọn cuối cùng vì cho hiệu suất vượt trội hơn cả.</li>
+                            <li><b>Cơ chế học sửa sai (Gradient Boosting)</b>: Thay vì bỏ phiếu độc lập, XGBoost xếp hàng trăm cây quyết định theo chuỗi tuần hoàn. Cây phía sau sẽ nhìn vào những ca đoán sai của cây phía trước để tập trung học lại, giúp phát hiện ra các hành vi quỵt nợ tinh vi ẩn sau hồ sơ đẹp.</li>
+                        </ul>
+                    <br>
+                    <li><b>Quy trình Tiền xử lý dữ liệu tự động (Pipeline)</b></li>
+                        <ul style='font-size: 15px; padding-left: 20px;'>
+                            <li><b>Chuẩn hóa số liệu (StandardScaler):</b> Đưa các biến chênh lệch lớn (Thu nhập, Hạn mức,...) về cùng một thước đo để đánh giá trọng số rủi ro công bằng.</li>
+                            <li><b>Mã hóa định dạng chữ (Encoder):</b> Tự động dịch các thông tin định tính (Học vấn, Việc làm, Mục đích vay,...) sang dạng số để máy tính làm toán.</li>
+                        </ul>
+                    <br>
+                    <li><b>Tinh chỉnh tham số xử lý mất cân bằng dữ liệu (scale_pos_weight=2.1)</b></li>
+                        <ul style='font-size: 15px; padding-left: 20px;'>
+                            <li><b>Thách thức dữ liệu thực tế:</b> Tệp dữ liệu bị mất cân bằng nặng (nhóm bùng nợ chỉ chiếm vỏn vẹn <b>11.6%</b>). Nếu để học tự nhiên, AI sẽ bị "lười" và luôn đoán khách hàng là người tốt để ăn gian độ chính xác toàn cục (Accuracy)</li>
+                            <li><b>Chiến lược phạt lỗi:</b> Hệ thống được thiết lập tham số ép mô hình phải chịu mức <b>phạt nặng gấp 2.1 lần</b> mỗi khi để "lọt lưới" một ca vỡ nợ (Class 1) so với việc nghi oan một khách hàng tốt (Class 0). Đây là chìa khóa cốt lõi giúp đẩy mạnh năng lực cảnh báo sớm và bảo vệ an toàn vốn cho ngân hàng.</li>
+                        </ul> 
+                </ol>
+                <hr>
+                <h5>Mục tiêu</h5>
+                Hỗ trợ ra quyết định:
+                <ul>
+                    <li><b>Duyệt vay siêu tốc, giảm tải thủ công:</b> Tự động nhận diện nhóm khách hàng chắc chắn an toàn để giải ngân ngay lập tức, giúp doanh nghiệp tiết kiệm chi phí và tăng tốc độ phục vụ.</li>
+                    <li><b>Chặn đứng nợ xấu, bảo vệ vốn:</b> Phát hiện và loại bỏ sớm các hồ sơ gian lận hoặc có nguy cơ quỵt nợ, bảo vệ túi tiền của doanh nghiệp khỏi nguy cơ mất trắng.</li>
+                    <li><b>Tối ưu nguồn thu, không nghi oan khách tốt:</b> Lọc ra các ca mập mờ để chuyển con người thẩm định lại, giúp "minh oan" cho khách hàng tốt nhằm giữ lại nguồn doanh thu lãi vay quý báu.</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
