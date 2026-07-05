@@ -346,7 +346,7 @@ def run_credit_card_app():
         st.markdown("""
             <style>
             /* Ep các cột Streamlit xếp dọc */
-            @media (max-width: 1400px) {
+            @media (max-width: 1300px) {
                 /* Tìm đến container chứa các cột của Streamlit và ép nó chuyển sang flex-direction dọc */
                 div[data-testid="stHorizontalBlock"] {
                     flex-direction: column !important;
