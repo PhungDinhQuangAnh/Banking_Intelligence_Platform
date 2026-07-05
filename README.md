@@ -1,18 +1,10 @@
-<h1 align="center">AI Health</h1>
+<h1 align="center">Banking Intelligence Platform</h1>
 
-[![Streamlit App](https://img.shields.io/badge/Truy%20cập%20ứng%20dụng%20trực%20tuyến-Click%20here-brightgreen)](https://ai-health.streamlit.app/)
+[![Streamlit App](https://img.shields.io/badge/Truy%20cập%20ứng%20dụng%20trực%20tuyến-Click%20here-brightgreen)](https://banking-intelligence-platform.streamlit.app/)
 
-AI Health là ứng dụng Web tương tác được xây dựng bằng Python & Streamlit nhằm hỗ trợ **dự đoán chi phí y tế** và **nguy cơ mắc bệnh** dựa trên thông tin cá nhân bằng các mô hình **Machine Learning**.
-
----
-
-## Chức năng chính
-
-- Ước tính **chi phí y tế hằng năm** mà bảo hiểm chi trả (Hoa Kỳ) – *Regression*
-- Dự đoán **khả năng mắc bệnh tiểu đường** – *Classification*
-- Dự đoán **nguy cơ mắc bệnh tim mạch** – *Classification*
-- Trực quan hiệu suất mô hình bằng **biểu đồ hiệu suất mô hình**, **bảng chỉ số đánh giá** (Accuracy, Precision, Recall, F1, R2,...)
-- Trực quan hóa dự đoán bằng giao diện người dùng đơn giản, dễ sử dụng
+**Banking Intelligence Platform** là nền tảng tích hợp **thuật toán AI** với **mục tiêu** hỗ trợ doanh nghiệp:
+- Phân khúc chủ thẻ tín dụng dựa trên hành vi tài chính, nhằm tăng trưởng doanh số & kích cầu chi tiêu.
+- Thẩm định rủi ro, giảm tải thủ công, tự động duyệt hồ sơ vay vốn an toàn & từ chối hồ sơ vay vốn rủi ro cao.
 
 ---
 
@@ -29,56 +21,50 @@ AI Health là ứng dụng Web tương tác được xây dựng bằng Python &
 
 | Bài toán             | Dataset                                                                                          | Mô hình sử dụng   |
 |---------------------|--------------------------------------------------------------------------------------------------|-------------------|
-| Dự đoán chi phí y tế| [Insurance Cost Dataset](https://www.kaggle.com/datasets/mirichoi0218/insurance)                | RandomForestRegressor |
-| Tiểu đường           | [Diabetes Indicators Dataset](https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset) | XGBClassifier |
-| Bệnh tim             | [Heart Failure Prediction](https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction)| RandomForestClassifier |
+| Phân Khúc Khách Hàng Thẻ Tín Dụng| [Credit Card Dataset](https://www.kaggle.com/datasets/arjunbhasin2013/ccdata)                | K-Means |
+| Thẩm Định Rủi Ro & Duyệt Hồ Sơ Vay Vốn | [Loan Default Dataset](https://www.kaggle.com/datasets/nikhil1e9/loan-default) | XGBClassifier |
 
 ---
 
 ## Cấu trúc dự án
 <pre>  
-AI_Health/
-├── app.py                      # App chính - giao diện chọn mô hình
+Banking_Intelligence_Platform/
+├── app.py                      # Giao diện chọn mô hình
 ├── requirements.txt            # Danh sách thư viện cần cài
 ├── README.md                   # Tài liệu mô tả dự án
 ├── LICENSE                     # Giấy phép sử dụng
 ├── Demo/                     
 |    ├── demo1.png              # Hình ảnh demo giao diện web
-│    └── demo2.png
+│    ├── demo2.png
+│    ├── demo3.png
+│    └── demo4.png
 │
-├── Medical_Cost/
-│   ├── medical_cost_app.py     # Ứng dụng Streamlit cho dự đoán chi phí y tế
-│   ├── dataset/
-│   │   └── medical_cost_dataset.csv   # Dữ liệu gốc
-│   ├── model/
-│   │   ├── medical_cost_model.py      # Code huấn luyện mô hình
-│   │   └── medical_cost_model.pkl     # Mô hình đã lưu
-│   └── report/
-│       ├── actual_vs_predicted.png    # Biểu đồ giá trị dự đoán vs thực tế
-│       ├── error_distribution.png     # Biểu đồ phân bố sai số
-│       └── medical_cost_metrics.json  # Chỉ số đánh giá mô hình
+├── Credit_Card_Segmentation/
+│    ├── credit_card_app.py            # Giao diện trang Phân Khúc Khách Hàng Thẻ Tín Dụng
+│    ├── dataset/
+│    │    └── credit_card_dataset.csv   # Bộ dữ liệu
+│    ├── model/
+│    │    ├── credit_card_model.py      # Code huấn luyện mô hình
+│    │    ├── iqr_bounds.pkl            # IQR xử lý outlier đã lưu
+│    │    ├── kmeans_normal.pkl         # K-Means cho tập Normal đã lưu
+│    │    ├── kmeans_outlier.pkl        # K-Means cho tập Outlier đã lưu
+│    │    ├── scaler_normal.pkl         # Scaler cho tập Normal đã lưu
+│    │    └── scaler_outlier.pkl        # Scaler cho tập Outlier đã lưu
+│    └── report/
+│         ├── credit_card_segmented_tsne.csv    # Kết quả lưu nhãn từng dữ liệu và tọa độ biểu đồ không gian
+│         ├── elbow_normal.png                  # Hình ảnh minh họa Elbow Method cho tập Normal
+│         └── elbow_outlier.png                 # Hình ảnh minh họa Elbow Method cho tập Outlier
 │
-├── Diabetes/
-│   ├── diabetes_app.py         # Ứng dụng Streamlit cho dự đoán tiểu đường
-│   ├── dataset/
-│   │   └── diabetes_dataset.csv
-│   ├── model/
-│   │   ├── diabetes_model.py
-│   │   └── diabetes_model.pkl
-│   └── report/
-│       ├── diabetes_classification_report.csv   # Chỉ số đánh giá
-│       └── diabetes_confusion_matrix.jpg        # Ma trận nhầm lẫn
-│
-├── Heart/
-│   ├── heart_app.py            # Ứng dụng Streamlit cho dự đoán bệnh tim
-│   ├── dataset/
-│   │   └── heart_dataset.csv
-│   ├── model/
-│   │   ├── heart_model.py
-│   │   └── heart_model.pkl
-│   └── report/
-│       ├── heart_classification_report.csv
-│       └── heart_confusion_matrix.jpg
+└── Loan_Default_Prediction/
+     ├── loan_default_app.py           # Giao diện trang Thẩm Định Rủi Ro & Duyệt Hồ Sơ Vay Vốn
+     ├── dataset/
+     │    └── loan_default_dataset.csv  # Bộ dữ liệu 
+     ├── model/
+     │    ├── loan_default_model.py     # Code huấn luyện mô hình
+     │    └── loan_default_model.pkl    # Mô hình đã lưu
+     └── report/
+          ├── loan_default_classification_report.csv   # Chỉ số đánh giá (Accuracy, Precision, Recall, F1)
+          └── loan_default_confusion_matrix.jpg        
 </pre>
 
 ---
@@ -97,4 +83,4 @@ AI_Health/
 
 ### Truy cập ứng dụng online
 
-🔗 https://ai-health.streamlit.app/
+🔗 https://banking-intelligence-platform.streamlit.app/
