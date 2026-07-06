@@ -11,10 +11,10 @@
 ## Giao diện demo
 
 <p align="center">
-  <img src="https://github.com/PhungDinhQuangAnh/ai-health/blob/main/Demo/demo1.png" alt="Giao diện demo">
-  <img src="https://github.com/PhungDinhQuangAnh/ai-health/blob/main/Demo/demo2.png" alt="Giao diện demo">
-  <img src="https://github.com/PhungDinhQuangAnh/ai-health/blob/main/Demo/demo3.png" alt="Giao diện demo">
-  <img src="https://github.com/PhungDinhQuangAnh/ai-health/blob/main/Demo/demo4.png" alt="Giao diện demo">
+  <img src="https://github.com/PhungDinhQuangAnh/ai-health/blob/main/Demo/demo1.png" alt="Giao diện demo 1">
+  <img src="https://github.com/PhungDinhQuangAnh/ai-health/blob/main/Demo/demo2.png" alt="Giao diện demo 2">
+  <img src="https://github.com/PhungDinhQuangAnh/ai-health/blob/main/Demo/demo3.png" alt="Giao diện demo 3">
+  <img src="https://github.com/PhungDinhQuangAnh/ai-health/blob/main/Demo/demo4.png" alt="Giao diện demo 4">
 </p>
 
 ---
