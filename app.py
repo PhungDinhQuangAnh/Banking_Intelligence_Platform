@@ -3,7 +3,7 @@ import streamlit as st
 from Loan_Default_Prediction.loan_default_app import run_loan_default_app
 from Credit_Card_Segmentation.credit_card_app import run_credit_card_app
 
-st.set_page_config(page_title="Banking Intelligence Platform", page_icon=":bank:", layout="wide")
+st.set_page_config(page_title="Banking Intelligence Platform", page_icon=":bank:", layout="wide", initial_sidebar_state="expanded")
 st.markdown('<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">', unsafe_allow_html=True)
 st.markdown('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">', unsafe_allow_html=True)
 
