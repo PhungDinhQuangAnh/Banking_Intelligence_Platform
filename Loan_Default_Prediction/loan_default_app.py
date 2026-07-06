@@ -232,7 +232,7 @@ def run_loan_default_app():
                         <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F1F5F9;">
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <span class="material-icons" style="color: #64748B; font-size: 18px; font-family: 'Material Icons' !important;">account_balance_wallet</span>
-                                <span style="font-size: 13.5px; color: #334155; font-weight: 500;">Chỉ số Nợ/Thu nhâp (DTI)</span>
+                                <span style="font-size: 13.5px; color: #334155; font-weight: 500;">Chỉ số Nợ/Thu nhập (DTI)</span>
                             </div>
                             <span style="font-size: 13px; font-weight: 700; color: #0F172A; background: #F1F5F9; padding: 2px 8px; border-radius: 6px; border: 1px solid #E2E8F0;">{DTIRatio}</span>
                         </div>  
