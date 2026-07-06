@@ -146,7 +146,7 @@ def run_credit_card_app():
         /* ========================================================================= */
 
         /* [Trường hợp 1] Màn hình Laptop nhỏ / Máy tính bảng nằm ngang: Tự rớt thành 2 hàng, mỗi hàng 3 ô đều tăm tắp */
-        @media (max-width: 1400px) {
+        @media (max-width: 1300px) {
             .kpi-grid {
                 grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
             }
@@ -346,7 +346,7 @@ def run_credit_card_app():
         st.markdown("""
             <style>
             /* Ep các cột Streamlit xếp dọc */
-            @media (max-width: 1300px) {
+            @media (max-width: 1400px) {
                 /* Tìm đến container chứa các cột của Streamlit và ép nó chuyển sang flex-direction dọc */
                 div[data-testid="stHorizontalBlock"] {
                     flex-direction: column !important;
