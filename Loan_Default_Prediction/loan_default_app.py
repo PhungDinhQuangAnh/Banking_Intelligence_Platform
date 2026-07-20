@@ -54,7 +54,7 @@ def run_loan_default_app():
                 MaritalStatus = st.selectbox("Tình trạng hôn nhân (Marital Status)", ["Độc thân", "Kết hôn", "Đã ly hôn"]) 
                 Education =  st.selectbox("Học vấn (Education)", ["Trung học Phổ thông (High School)", "Cử nhân / Kỹ sư (Bachelor's)", "Thạc sĩ (Master's)", "Tiến sĩ (PhD)"])   
             with col2:
-                HasDependents = st.selectbox("Có người thân phụ thuộc? (Con cái,...) (Has Dependents)", ["Có", "Không"])
+                HasDependents = st.selectbox("Có người thân phụ thuộc? (Has Dependents)", ["Có", "Không"])
                 HasCoSigner = st.selectbox("Có người đồng ký tên/bảo lãnh không? (Has Cosigner)", ["Có", "Không"])
             Age = st.slider("Tuổi (Age)", min_value=18, max_value=69, value=30, step=1) 
 
