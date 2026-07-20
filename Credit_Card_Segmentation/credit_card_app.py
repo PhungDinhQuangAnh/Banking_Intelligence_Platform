@@ -385,7 +385,7 @@ def run_credit_card_app():
             
             chart_type = st.radio(
                 "Chọn kiểu hiển thị bản đồ t-SNE:",
-                options=["Bản đồ Mặt phẳng 2D", "Bản đồ Không gian 3D"],
+                options=["Bản đồ Không gian 3D", "Bản đồ Mặt phẳng 2D"],
                 horizontal=True,
                 label_visibility="collapsed"
             )
