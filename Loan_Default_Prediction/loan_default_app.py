@@ -6,21 +6,18 @@ from datetime import datetime
 import os
 
 def run_loan_default_app():
-    # --- Lấy các đường dẫn ---
+    # Lấy các đường dẫn
     APP_DIR = os.path.dirname(os.path.abspath(__file__))
     MODEL_PATH = os.path.join(APP_DIR, "model", "loan_default_model.pkl")
     CLASSIFICATION_REPORT_PATH = os.path.join(APP_DIR, "report", "loan_default_classification_report.csv")
     CONFUSION_MATRIX_PATH = os.path.join(APP_DIR, "report", "loan_default_confusion_matrix.jpg")
 
-    # --- CSS Internal ---
+    # CSS Internal
     st.markdown("""
     <style>
-        /* Ẩn 1 số element mặc định của streamlit */
         .st-emotion-cache-gi0tri {
             display: none !important;
         }
-
-        /* Header trang và tiêu đề mỗi section */
         .page-header {
             text-align: center;
             background: linear-gradient(to right, #60A5FA, #2563EB, #1E3A8A); 
@@ -30,19 +27,15 @@ def run_loan_default_app():
             font-size: clamp(24px, 3.5vw + 1rem, 38px) !important;
             margin-bottom: clamp(12px, 2vw, 30px) !important;
         } 
-
         hr {
             margin: 0 0 1rem 0 !important;
         }
-
         .section-title {
             font-size: clamp(16px, 0.85vw + 0.8rem, 25px) !important; 
             font-weight: 650 !important; 
             color: #0F172A; 
             margin-top: clamp(10px, 2vw, 25px) !important;
         }
-
-        /* Card kết quả dự đoán */
         .result-banner {
             background-color: var(--bg-color) !important; 
             border-left: 6px solid var(--border-color) !important; 
@@ -50,13 +43,11 @@ def run_loan_default_app():
             border-radius: 8px; 
             margin-bottom: clamp(0px, 1.25vw, 12px)
         }
-
         .result-banner__title {
             font-size: clamp(14.3px, 1vw + 0.5rem, 20px) !important;
             margin: 0 !important;
             color: var(--text-color) !important;
         }
-
         .result-banner__desc {
             color: var(--text-color);
             font-size: clamp(13.5px, 0.5vw + 0.6rem, 15px); 
@@ -64,7 +55,6 @@ def run_loan_default_app():
             line-height: 1.5;
             letter-spacing: 0.3px;
         }
-
         .card-metric {
             background: #FFFFFF; 
             margin-bottom: 1rem;
@@ -74,13 +64,11 @@ def run_loan_default_app():
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; 
         }
-
         .card-metric__list {
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
         }
-
         .card-metric__item {
             display: flex;
             justify-content: space-between;
@@ -88,49 +76,40 @@ def run_loan_default_app():
             padding: clamp(8px, 1vw, 12px) 0;
             border-bottom: 1px solid #F1F5F9;
         }
-
         .card-metric__label {
             display: flex; 
             align-items: center; 
             gap: 8px;
         }
-
         .card-metric__label-text {
             font-size: clamp(12px, 0.4vw + 0.55rem, 13.5px); 
             color: #334155; 
             font-weight: 500;
         }
-
         .card-metric__label-icon {
             color: #64748B; 
             font-size: clamp(15px, 1vw + 0.2rem, 18px);
         }
-
-        /* Card hiệu suất mô hình */
         .card-report {
             padding: 15px; 
             border-radius: 10px;
             box-sizing: border-box;  
             height: 100% !important;
         }
-        
         .card-report--green {
             background-color: #F0FDF4;
             border-top: 2px solid #86EFAC;
         }
-
         .card-report--red {
             background-color: #FEF2F2;
             border-top: 2px solid #FCA5A5;
         }
-        
         .card-report--yellow {
             background-color: #FFFBEB;
             border: 2px dashed #FDE047;
             margin-bottom: 1rem;
             margin-top: 10px;
         }
-
         .card-report__title {
             display: flex !important;
             gap: 5px !important;
@@ -138,30 +117,24 @@ def run_loan_default_app():
             margin-bottom: 8px !important;
             padding: 0 !important;
         }
-
         .card-report__icon {
             font-size: clamp(19px, 1.5vw, 24px) !important;
             line-height: 1 !important;
         }
-
         .card-report__title-content {
             font-size: clamp(14.5px, 1.1vw, 16px) !important;
             font-weight: 700 !important;
             letter-spacing: 0.3px;
         }
-
         .card-report__title--green {
             color: #166534 !important;
         }
-
         .card-report__title--red {
             color: #991B1B !important;
         }
-
         .card-report__title--yellow {
             color: #854D0E !important;
         }
-
         .card-report__list {
             font-size: clamp(13px, 0.95vw, 14.5px) !important;
             line-height: 1.6 !important;
@@ -169,35 +142,28 @@ def run_loan_default_app():
             margin: 0 !important;
             color: #334155;
         }
-
         .card-report__list li {
             margin-bottom: 8px;
         }
-
         .card-report__list li:last-child {
             margin-bottom: 0;
         }
-
         .card-report__sublist {
             padding-left: 20px !important;
             margin-top: 4px !important;
             margin-bottom: 3px !important;
             list-style-type: circle !important;
         }
-
-        /* Responsive theo main content */
         section[data-testid="stMain"] {
             container-type: inline-size !important;
             container-name: main-viewport !important;
             width: 100% !important;
         }
-
         div[data-testid="stColumn"] > div[data-testid="stVerticalBlock"] {
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
         @container main-viewport (max-width: 730px) {
             div[data-testid="stHorizontalBlock"] {
                 flex-direction: column !important;
@@ -216,7 +182,7 @@ def run_loan_default_app():
     </style>
     """, unsafe_allow_html=True)
 
-    # --- 1. Tiêu đề trang ---
+    # 1. Tiêu đề trang
     st.markdown("""
     <h1 class="page-header">
         Thẩm Định Rủi Ro & Duyệt Hồ Sơ Vay Vốn
@@ -225,10 +191,10 @@ def run_loan_default_app():
     )
     st.markdown("---")
 
-    # --- 2. Load mô hình ---
+    # 2. Load mô hình
     model = joblib.load(MODEL_PATH)
 
-    # --- 3. Form nhập liệu người dùng ---
+    # 3. Form nhập liệu người dùng
     st.markdown("""
         <h2 class="section-title">
             NHẬP THÔNG TIN KHÁCH HÀNG
@@ -243,7 +209,7 @@ def run_loan_default_app():
             "▤ **Lịch sử Tín dụng**"
         ])
 
-        # --- TAB 1: Chi tiết Khoản vay ---
+        # TAB 1: Chi tiết Khoản vay 
         with tab1:
             col1, col2 = st.columns(2)
             with col1:
@@ -254,7 +220,7 @@ def run_loan_default_app():
                 HasMortgage = st.selectbox("Đang có khoản vay thế chấp khác? (Has Mortgage)", ["Có", "Không"])
             InterestRate = st.slider("Lãi suất áp dụng (Interest Rate - %)", min_value=2.0, max_value=25.0, value=5.05, step=0.01, format="%.2f %%")
 
-        # --- TAB 2: Thông tin Định danh ---
+        # TAB 2: Thông tin Định danh
         with tab2:
             col1, col2 = st.columns(2)
             with col1:
@@ -265,7 +231,7 @@ def run_loan_default_app():
                 HasCoSigner = st.selectbox("Có người đồng ký tên/bảo lãnh không? (Has Cosigner)", ["Có", "Không"])
             Age = st.slider("Tuổi (Age)", min_value=18, max_value=69, value=30, step=1) 
 
-        # --- TAB 3: Năng lực Tài chính---
+        # TAB 3: Năng lực Tài chính
         with tab3:
             col1, col2, col3 = st.columns(3)
             with col1:
@@ -275,7 +241,7 @@ def run_loan_default_app():
             with col3:
                 EmploymentType = st.selectbox("Loại hình công việc", ["Full-time", "Part-time", "Self-employed", "Unemployed"], help="Hình thức hợp đồng lao động hiện tại")
 
-        # --- TAB 4: Lịch sử Tín dụng ---
+        # TAB 4: Lịch sử Tín dụng
         with tab4:
             col1, col2, col3 = st.columns(3)
             with col1:
@@ -287,14 +253,12 @@ def run_loan_default_app():
 
         submitted = st.form_submit_button("**Dự đoán**")
     
-    # --- 4. Dự đoán & Hiển thị kết quả ---
-    # Khởi tạo session_state cho lịch sử tín dụng
+    # 4. Dự đoán & Hiển thị kết quả
     if "loan_history" not in st.session_state:
         st.session_state["loan_history"] = []
     proba = None
 
     if submitted:
-        # 4_1. Mapping giá trị về dạng mô hình đã học
         yes_no_map = {"Không": "No", "Có": "Yes"}
         
         MaritalStatus_map = {
@@ -318,7 +282,6 @@ def run_loan_default_app():
             "Mục đích tiêu dùng khác (Other)": "Other"
         }
 
-        # 4_2. Tạo dictionary cho dữ liệu đầu vào
         input_data = {
             "Age": Age,
             "Income": Income,
@@ -339,10 +302,8 @@ def run_loan_default_app():
         }
         input_df = pd.DataFrame([input_data])
         
-        # 4_3. Dự đoán xác suất vỡ nợ
         proba = model.predict_proba(input_df)[0][1]
 
-        # 4_4. Lưu vào lịch sử dự đoán
         record = {
             "Thời gian": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "Xác suất (%)": round(proba * 100, 2),
@@ -365,7 +326,6 @@ def run_loan_default_app():
         }
         st.session_state["loan_history"].append(record)
 
-    # --- ĐƯA PHẦN HIỂN THỊ RA NGOÀI FORM ĐỂ GIAO DIỆN RỘNG RÃI, ĐẸP MẮT ---
     if proba is not None:
         st.markdown("""
             <h2 class="section-title">
@@ -374,7 +334,6 @@ def run_loan_default_app():
         """, unsafe_allow_html=True
         )
         
-        # Xác định nhóm màu sắc và nội dung thông báo dựa trên xác suất rủi ro
         if proba < 0.17:
             bg_color = "#E8F8F5"
             border_color = "#2ECC71"
@@ -397,7 +356,6 @@ def run_loan_default_app():
             status_desc = "❗ <b>Khuyến nghị:</b> Nên từ chối phê duyệt khoản vay. Xác suất xảy ra vỡ nợ hoặc nợ xấu vượt mức chịu đựng rủi ro của doanh nghiệp."
             bar_color = "#C0392B"
 
-        # Thiết kế khối thông tin kết quả dạng Banner
         st.markdown(f"""
             <div class="result-banner" style="--bg-color:{bg_color}; --border-color:{border_color}">
                 <h4 class="result-banner__title" style="--text-color:{text_color}">{status_title}</h4>
@@ -405,7 +363,6 @@ def run_loan_default_app():
             </div>
         """, unsafe_allow_html=True)
 
-        # Chia layout: Bên trái đặt biểu đồ Gauge, Bên phải đặt các chỉ số tóm tắt nhanh
         res_col1, res_col2 = st.columns([5, 5])
         
         with res_col1:
@@ -416,13 +373,13 @@ def run_loan_default_app():
                 title = {'text': "Xác suất khách hàng vỡ nợ dự báo", 'font': {'size': 16, 'color': '#5D6D7E'}},
                 gauge = {
                     'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "#BDC3C7"},
-                    'bar': {'color': bar_color}, # Màu thanh kim sẽ thay đổi động theo kết quả phân loại
+                    'bar': {'color': bar_color}, 
                     'bgcolor': "#F4F6F7",
                     'borderwidth': 0,
                     'steps': [
-                        {'range': [0, 17], 'color': '#D4EFDF'},  # Xanh pastel nhạt
-                        {'range': [17, 75], 'color': '#FCF3CF'}, # Vàng pastel nhạt
-                        {'range': [75, 100], 'color': '#FADBD8'} # Đỏ pastel nhạt
+                        {'range': [0, 17], 'color': '#D4EFDF'}, 
+                        {'range': [17, 75], 'color': '#FCF3CF'},
+                        {'range': [75, 100], 'color': '#FADBD8'}
                     ]
                 }
             ))
@@ -465,7 +422,7 @@ def run_loan_default_app():
                 </div>
             """, unsafe_allow_html=True)
     
-    # --- 5. Hiển thị lịch sử dự đoán ---
+    # 5. Hiển thị lịch sử dự đoán
     if st.session_state["loan_history"]:
         st.markdown("""
             <h2 class="section-title">
@@ -483,7 +440,7 @@ def run_loan_default_app():
             width='stretch'
         )
         
-        # --- 6. Hiệu suất mô hình ---
+        # 6. Hiệu suất mô hình
         st.markdown("""
             <h2 class="section-title">
                 HIỆU SUẤT MÔ HÌNH
@@ -515,8 +472,8 @@ def run_loan_default_app():
                 .format("{:.2f}", subset=["precision", "recall", "f1-score"])
                 .format("{:,.0f}", subset=["support"])
                 .set_properties(**{
-                    'font-weight': '600',       # Đẩy chữ toàn bảng đậm lên (mức 600)
-                    'color': '#2C3E50'          # Đổi màu chữ sang xanh đen đậm thay vì xám mờ
+                    'font-weight': '600',
+                    'color': '#2C3E50'
                 })
             )
             st.dataframe(styled_df, width='stretch')
@@ -579,7 +536,7 @@ def run_loan_default_app():
             </div>
             """, unsafe_allow_html=True)
 
-        # --- 7. Thông tin thêm ---
+        # 7. Thông tin thêm
         st.markdown("""
             <h2 class="section-title">
                 THÔNG TIN THÊM
