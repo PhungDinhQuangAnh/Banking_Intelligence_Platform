@@ -83,8 +83,6 @@ Banking_Intelligence_Platform/
 
 ---
 
-## Cách chạy ứng dụng
-
-### Truy cập ứng dụng online
+## Truy cập ứng dụng online
 
 🔗 https://banking-intelligence-platform.streamlit.app/
