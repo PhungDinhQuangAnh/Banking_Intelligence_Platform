@@ -93,16 +93,16 @@ def check_outliers(df):
     plt.show()
     print("-------------------------------\n")
 
-# Thiết lập đường dẫn thư mục hiện hành
+# Thiết lập đường dẫn thư mục hiện tại
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# --- 1. Tải dữ liệu & Khám phá dữ liệu (EDA) ---
+# 1. Tải dữ liệu & Khám phá dữ liệu (EDA)
 df = pd.read_csv(os.path.join(BASE_DIR, "..", "dataset", "credit_card_dataset.csv"))
 # check_data(df)
 # visualize_data(df)
 # check_outliers(df)
 
-# --- 2. Tiền xử lý dữ liệu ---
+# 2. Tiền xử lý dữ liệu
 # 2_1. Xử lý giá trị thiếu
 low_balance_median = df[df["BALANCE"] < 100]["CREDIT_LIMIT"].median()
 df["CREDIT_LIMIT"] = df["CREDIT_LIMIT"].fillna(low_balance_median)
@@ -139,7 +139,7 @@ scaler_o = StandardScaler()
 X_outlier_for_train = df_outlier[core_financial_cols] 
 X_outlier_scaled = scaler_o.fit_transform(X_outlier_for_train)
 
-# --- 3. Hàm vẽ biểu đồ Elbow tìm số cụm k tối ưu ---
+# 3. Hàm vẽ biểu đồ Elbow tìm số cụm k tối ưu
 def plot_elbow(X, title, filename):
     inertia = []
     K_range = range(1, 10)
@@ -159,8 +159,7 @@ def plot_elbow(X, title, filename):
 plot_elbow(X_normal_scaled, "Elbow cho Tập Số Đông (Normal)", "elbow_normal.png")
 plot_elbow(X_outlier_scaled, "Elbow cho Tập Ngoại Lai (Outliers)", "elbow_outlier.png")
 
-
-# --- 4. Huấn luyện K-Means độc lập theo số K đã chọn ---
+# 4. Huấn luyện K-Means độc lập theo số K đã chọn
 # Tập Số Đông (Chọn K=3)
 kmeans_normal = KMeans(n_clusters=3, random_state=42, n_init=10)
 df_normal["Cluster_Raw"] = kmeans_normal.fit_predict(X_normal_scaled)
@@ -175,8 +174,7 @@ df_outlier["Cluster"] = df_outlier["Cluster_Raw"].map(
     {0: "Outlier_1", 1: "Outlier_2", 2: "Outlier_3"}
 )
 
-# --- 5. Gộp 2 tập dữ liệu lại thành một bản đồ tổng thể ---
-# Giữ lại toàn bộ các cột hành vi khác bằng cách xóa đúng cột phụ Cluster_Raw
+# 5. Gộp 2 tập dữ liệu lại thành một bản đồ tổng thể
 df_final = pd.concat(
     [
         df_normal.drop(columns=["Cluster_Raw"]),
@@ -200,8 +198,7 @@ df_final["t-SNE 1"] = X_tsne[:, 0]
 df_final["t-SNE 2"] = X_tsne[:, 1]
 df_final["t-SNE 3"] = X_tsne[:, 2]
 
-# --- 6. Kiểm tra chân dung các nhóm khách hàng ---
-# Tập trung kiểm tra cả các cột hành vi mua sắm xem chân dung có sắc nét không
+# 6. Kiểm tra chân dung các nhóm khách hàng
 marketing_cols = [
     "BALANCE",
     "PURCHASES",
@@ -217,17 +214,17 @@ cluster_profile = df_final.groupby("Cluster")[marketing_cols].mean()
 print("\n=== BẢNG CHÂN DUNG KHÁCH HÀNG ===")
 print(cluster_profile.round(2).T)
 
-# --- 7. Đóng gói & lưu trữ file ---
+# 7. Lưu file
 # Lưu file dữ liệu tổng hợp (Chứa đủ 9 cột gốc + cột Cluster + 3 cột t-SNE)
 df_final.to_csv(os.path.join(BASE_DIR,"..","report","credit_card_segmented_tsne.csv"), index=False)
 
-# Lưu các mô hình và bộ scaler để sử dụng dự đoán trên Streamlit 
+# File mô hình và scaler
 joblib.dump(scaler_n, os.path.join(BASE_DIR,"scaler_normal.pkl"))
 joblib.dump(scaler_o, os.path.join(BASE_DIR,"scaler_outlier.pkl"))
 joblib.dump(kmeans_normal, os.path.join(BASE_DIR,"kmeans_normal.pkl"))
 joblib.dump(kmeans_outlier, os.path.join(BASE_DIR,"kmeans_outlier.pkl"))
 
-# Tính toán ranh giới IQR để lưu lại phục vụ việc phân loại động trên Streamlit
+# File IQR
 iqr_bounds = {}
 for col in core_financial_cols:
     Q1 = df[col].quantile(0.25)
@@ -235,4 +232,3 @@ for col in core_financial_cols:
     IQR = Q3 - Q1
     iqr_bounds[col] = {"lower": Q1 - 1.5 * IQR, "upper": Q3 + 1.5 * IQR}
 joblib.dump(iqr_bounds, os.path.join(BASE_DIR,"iqr_bounds.pkl"))
-
