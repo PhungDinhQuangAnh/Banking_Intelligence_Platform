@@ -6,7 +6,7 @@ import joblib
 import os
 
 def run_credit_card_app():
-    # --- Lấy các đường dẫn ---
+    # Lấy các đường dẫn
     APP_DIR = os.path.dirname(os.path.abspath(__file__))
     IQR_BOUNDS_PATH = os.path.join(APP_DIR, "model", "iqr_bounds.pkl")
     KMEANS_NORMAL_PATH = os.path.join(APP_DIR, "model", "kmeans_normal.pkl")
@@ -17,7 +17,7 @@ def run_credit_card_app():
     ELBOW_NORMAL_PATH = os.path.join(APP_DIR, "report", "elbow_normal.png")
     ELBOW_OUTLIER_PATH = os.path.join(APP_DIR, "report", "elbow_outlier.png")
 
-    # --- Chuẩn bị thông tin các nhóm khách hàng ---
+    # Chuẩn bị thông tin các nhóm khách hàng
     STRATEGIES = {
         "Nhóm 1: Khách Hàng Thụ Động": {
             "short_label": "Nhóm 1", "old_id": "Normal_2", "icon": "snooze", "type": "Phổ thông",
@@ -61,7 +61,7 @@ def run_credit_card_app():
     COLOR_HTML_MAP = {k: f"<span style='color:{v['color']}; font-weight:800;'>{v['short_label']}</span>" for k, v in STRATEGIES.items()}
     COLOR_MAP_SHORT = {f"<span style='color:{v['color']}; font-weight:800;'>{v['short_label']}</span>": v["color"] for k, v in STRATEGIES.items()}
 
-    # --- Tải dữ liệu ---
+    # Tải dữ liệu
     @st.cache_data
     def load_data():
         df = pd.read_csv(CSV_PATH)
@@ -70,13 +70,9 @@ def run_credit_card_app():
         return df
     df_final = load_data()
     
-    # --- CSS Internal ---
+    # CSS Internal
     st.markdown("""
         <style>
-            /* ----------------------------------------------------------- */
-            /* CSS phần header và banner thông tin đầu trang */
-            /* ----------------------------------------------------------- */
-
             .page-header {
                 text-align: center;
                 background: linear-gradient(135deg, #06B6D4 0%, #3B82F6 50%, #1E3A8A 100%); 
@@ -144,8 +140,6 @@ def run_credit_card_app():
                 color: #2563EB !important;
                 border-bottom-color: #2563EB;
             }
-
-            /* --- Tiêu đề mỗi section --- */
             .section {
                 display: flex;
                 gap: 8px;
@@ -162,12 +156,6 @@ def run_credit_card_app():
                 font-weight: 800; 
                 color: #0F172A; 
             }
-
-            /* ----------------------------------------------------------- */
-            /* CSS Tab trực quan và Tab dự đoán */
-            /* ----------------------------------------------------------- */
-
-            /* --- Card KPI --- */
             .card-grid {
                 display: grid !important;
                 grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
@@ -249,8 +237,6 @@ def run_credit_card_app():
                 transform: translateY(-5px) !important;
                 box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.12) !important;
             }
-
-            /* --- Card Thông tin từng nhóm khách hàng --- */
             .card-customer {
                 border-radius: 24px;
                 padding: clamp(16px, 2vw, 25px);
@@ -321,8 +307,6 @@ def run_credit_card_app():
                 color: #334155;
                 font-size: clamp(13px, 0.3vw + 0.7rem, 14.5px) !important;
             }
-
-            /* --- Card kết quả dự đoán khách hàng --- */
             .predict-card {
                 background: #FFFFFF;
                 border: 2.5px solid var(--profile-color) !important;
@@ -348,12 +332,6 @@ def run_credit_card_app():
                 padding: clamp(12px, 1.5vw, 16px);
                 border-radius: 12px;
             }
-
-            /* ----------------------------------------------------------- */
-            /* CSS Tab thông tin */
-            /* ----------------------------------------------------------- */
-
-             /* --- Dữ liệu phân tích --- */
             .card-info {
                 border: 1px solid #E2E8F0;
                 border-radius: 14px;
@@ -410,8 +388,6 @@ def run_credit_card_app():
                 color: #475569; 
                 margin: 0;
             }
-
-            /* --- Kỹ thuật phân tích --- */
             .step-card {
                 background: #F8FAFC; 
                 padding: clamp(14px, 1.8vw, 20px); 
@@ -464,12 +440,6 @@ def run_credit_card_app():
                 color: #475569; 
                 font-size: clamp(12.5px, 0.3vw + 0.65rem, 14px) !important;
             }
-
-            /* ----------------------------------------------------------- */
-            /* Tinh chỉnh cho giao diện cân đối */
-            /* ----------------------------------------------------------- */
-
-            /* --- Căn cân đối ratio --- */
             div[data-testid="stElementContainer"],
             div[data-testid="stRadio"],
             div[data-testid="stRadio"] > div[data-testid="stRadioGroup"] {
@@ -479,7 +449,6 @@ def run_credit_card_app():
                 display: flex !important;
                 justify-content: space-between !important;
             }
-            
             /* Xóa biểu tượng bên cạnh page header */
             .st-emotion-cache-gi0tri {
                 display: none !important;
@@ -487,18 +456,12 @@ def run_credit_card_app():
             .traces {
                 display:flex;
                 justify-content: center;
-            }
-
-            /* ----------------------------------------------------------- */
-            /* Responsive theo main content */
-            /* ----------------------------------------------------------- */
-            
+            }  
             section[data-testid="stMain"] {
                 container-type: inline-size !important;
                 container-name: main-viewport !important;
                 width: 100% !important;
             }
-
             @container main-viewport (max-width: 765px) {
                 .card-grid {
                     grid-template-columns: repeat(3, 1fr) !important;
@@ -520,7 +483,6 @@ def run_credit_card_app():
                     width: 100% !important;
                 }
             }
-
             @container main-viewport (max-width: 535px) {
                 .card-grid {
                     grid-template-columns: repeat(2, 1fr) !important;
@@ -529,14 +491,14 @@ def run_credit_card_app():
         </style>
     """, unsafe_allow_html=True)
     
-    # --- 1. Tiêu đề trang ---
+    # 1. Tiêu đề trang
     st.markdown("""
         <h1 class="page-header">
             Phân Khúc Khách Hàng Thẻ Tín Dụng
         </h1>
     """, unsafe_allow_html=True)
 
-    #  --- 2. Banner nguồn gốc dữ liệu & rào cản bảo mật ---
+    # 2. Banner nguồn gốc dữ liệu & rào cản bảo mật
     st.markdown("""
         <div class="data-banner">
             <div class="data-banner__card">
@@ -570,7 +532,7 @@ def run_credit_card_app():
         </div>
     """, unsafe_allow_html=True)
 
-    # --- 3. Chia 3 Tab (Trực quan - Dự đoán - Thông tin) ---
+    # 3. Chia 3 Tab (Trực quan - Dự đoán - Thông tin)
     tab_dashboard, tab_prediction, tab_infomation = st.tabs(["**Tổng Quan & Trực Quan Hóa**", "**Phân Khúc Khách Hàng**", "**Thông Tin Thêm**"])
     
     # 3_1. TAB Trực quan
