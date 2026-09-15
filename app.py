@@ -3,14 +3,14 @@ import streamlit as st
 from Loan_Default_Prediction.loan_default_app import run_loan_default_app
 from Credit_Card_Segmentation.credit_card_app import run_credit_card_app
 
-# --- Cấu hình trang ---
+# Cấu hình trang
 st.set_page_config(page_title="Banking Intelligence Platform", page_icon=":bank:", layout="wide", initial_sidebar_state="collapsed")
 
-# --- Nạp thư viện Icon ---
+# Nhúng thư viện Icon
 st.markdown('<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">', unsafe_allow_html=True)
 st.markdown('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">', unsafe_allow_html=True)
 
-# --- CSS Internal ---
+# CSS Internal
 st.markdown("""
     <style>
         .sidebar-header {
@@ -155,7 +155,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- Phần Sidebar ---
+# Phần Sidebar
 with st.sidebar:
     # 1. Header chính
     st.markdown("""
@@ -251,7 +251,7 @@ with st.sidebar:
         </div>
     """, unsafe_allow_html=True)
 
-# --- Điều hướng chức năng ---
+# Điều hướng chức năng
 if selected_app == "Phân Khúc Khách Hàng Thẻ Tín Dụng":
     run_credit_card_app()
 elif selected_app == "Thẩm Định Rủi Ro & Duyệt Hồ Sơ Vay vốn":
