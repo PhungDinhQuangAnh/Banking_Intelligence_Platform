@@ -104,17 +104,17 @@ def check_outliers(df):
     plt.show()
     print("-------------------------------\n")
 
-# --- Lấy đường dẫn tuyệt đối của thư mục hiện tại ---
+# Lấy đường dẫn tuyệt đối của thư mục hiện tại
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# --- 1. Tải & Khám phá dữ liệu (EDA) ---
+# 1. Tải & Khám phá dữ liệu (EDA)
 df = pd.read_csv(os.path.join(BASE_DIR, "..", "dataset", "loan_default_dataset.csv"))
 target = "Default"
 # check_data(df,target)
 # visualize_data(df)
 # check_outliers(df)
 
-# --- 2. Tiền xử lý dữ liệu ---
+# 2. Tiền xử lý dữ liệu
 # 2_1. Chia x, y
 x = df.drop(target,axis=1)
 y = df[target]
@@ -135,7 +135,7 @@ preprocessor = ColumnTransformer(transformers=[
     ('nom', nom_encoder, nom_cols)
 ])
 
-# --- 3. Xây dựng mô hình ---
+# 3. Xây dựng mô hình
 model = Pipeline([
     ("preprocessor", preprocessor),
     ("classifier", XGBClassifier(scale_pos_weight=2.1,max_depth=5,learning_rate=0.1,min_child_weight=120,reg_lambda=50.0, random_state=89))
@@ -143,7 +143,7 @@ model = Pipeline([
 model.fit(x_train, y_train)
 y_pred = model.predict(x_test)
 
-# --- 4. Đánh giá mô hình theo ngưỡng threshold mặc định 0.5 ---
+# 4. Đánh giá mô hình theo ngưỡng threshold mặc định 0.5
 # 4_1. Evaluation Metrics
 print(classification_report(y_test, y_pred))
 # Save Classification_Report
@@ -159,28 +159,22 @@ plt.title("Confusion Matrix")
 plt.savefig(os.path.join(BASE_DIR, "..", "report", "loan_default_confusion_matrix.jpg"))
 plt.show()
 
-# --- 5. Đánh giá mô hình theo Chiến lược 3 Vùng Quyết định ---
-# Dự đoán XÁC SUẤT (Probability) thay vì nhãn nhị phân
+# 5. Đánh giá mô hình theo Chiến lược 3 Vùng Quyết định
 y_proba = model.predict_proba(x_test)[:, 1]
 
-# Thiết lập cấu hình 2 Ngưỡng phân tách (Threshold Tuning)
-T_LOW = 0.17   # Dưới mức này: Duyệt tự động (Ép Precision Class 0 lên cao)
-T_HIGH = 0.75  # Trên mức này: Từ chối tự động (Ép Precision Class 1 lên cao)
+T_LOW = 0.17 
+T_HIGH = 0.75
 
-# Hàm phân vùng quyết định tín dụng
 def evaluate_three_zones(y_true, y_proba, t_low, t_high):
-    # Tạo DataFrame để dễ truy vấn và thống kê
     results_df = pd.DataFrame({
         'Real_Label': y_true.values,
         'Proba_Default': y_proba
     })
     
-    # Định nghĩa điều kiện lọc cho từng vùng
     vung_an_toan = results_df[results_df['Proba_Default'] < t_low]
     vung_tham_dinh = results_df[(results_df['Proba_Default'] >= t_low) & (results_df['Proba_Default'] <= t_high)]
     vung_tu_choi = results_df[results_df['Proba_Default'] > t_high]
     
-    # --- Tính toán chỉ số cho VÙNG AN TOÀN ---
     total_safe = len(vung_an_toan)
     if total_safe > 0:
         # Precision Class 0 = Số người thực sự KHÔNG vỡ nợ / Tổng số người rơi vào vùng an toàn
@@ -188,15 +182,12 @@ def evaluate_three_zones(y_true, y_proba, t_low, t_high):
     else:
         precision_c0_safe = 0
         
-    # --- Tính toán chỉ số cho VÙNG TỪ CHỐI (Auto-Reject) ---
     total_reject = len(vung_tu_choi)
     if total_reject > 0:
         # Precision Class 1 = Số người thực sự VỠ NỢ / Tổng số người bị từ chối thẳng
         precision_c1_reject = (vung_tu_choi['Real_Label'] == 1).sum() / total_reject
     else:
         precision_c1_reject = 0
-
-    # --- In báo cáo chi tiết ---
 
     print(f"1. VÙNG AN TOÀN (Xác suất < {t_low}):")
     print(f"   - Số lượng hồ sơ giải ngân tự động: {total_safe} ({total_safe/len(results_df)*100:.2f}%)")
@@ -211,7 +202,6 @@ def evaluate_three_zones(y_true, y_proba, t_low, t_high):
     print(f"   - Số ca nợ xấu thực tế cần lọc   : {(vung_tham_dinh['Real_Label'] == 1).sum()} ca")
     print("\n=====================================================================")
 
-# Chạy hàm đánh giá hiệu suất thực tế trên tập Test
 evaluate_three_zones(y_test, y_proba, t_low=T_LOW, t_high=T_HIGH)
 
 # Lưu mô hình
