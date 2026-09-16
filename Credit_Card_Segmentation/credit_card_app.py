@@ -345,7 +345,7 @@ def run_credit_card_app():
                 box-shadow: 0 12px 28px rgba(37, 99, 235, 0.08);
             }
             .card-info__description {
-                font-size: calc(0.9rem + 0.2vw) !important;
+                font-size: calc(0.84rem + 0.2vw) !important;
                 color: #334155;
                 line-height: 1.65;
             }
