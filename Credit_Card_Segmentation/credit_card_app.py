@@ -78,19 +78,19 @@ def run_credit_card_app():
                 background: linear-gradient(135deg, #06B6D4 0%, #3B82F6 50%, #1E3A8A 100%); 
                 -webkit-background-clip: text; 
                 -webkit-text-fill-color: transparent; 
-                font-weight: 800;
-                font-size: clamp(24px, 3.5vw + 1rem, 38px) !important;
-                margin-bottom: clamp(15px, 2vw, 25px);
+                font-weight: 800 !important;
+                font-size: calc(1.3rem + 1.2vw) !important;
+                margin-bottom: calc(0.9rem + 0.5vw) !important;
             }
             .data-banner {
                 display: flex;
                 flex-direction: column;
-                gap: clamp(10px, 1.2vw, 16px);
-                margin-bottom: clamp(16px, 2vw, 25px);
+                gap: calc(0.6rem + 0.3vw);
+                margin-bottom: calc(0.9rem + 0.5vw);
             }
             .data-banner__card {
                 display: flex;
-                gap: clamp(12px, 1.5vw, 18px);
+                gap: calc(0.75rem + 0.4vw);
                 align-items: center;
                 background: #FFFFFF !important;
                 border-top: 1px solid #E2E8F0 !important;
@@ -98,7 +98,7 @@ def run_credit_card_app():
                 border-left: 4px solid #2563EB !important; 
                 border-right: 4px solid #2563EB !important; 
                 border-radius: 16px !important;
-                padding: clamp(12px, 1.5vw, 18px) clamp(16px, 2vw, 24px);
+                padding: calc(0.75rem + 0.4vw) calc(1rem + 0.5vw);
                 box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 0 8px 16px -6px rgba(15, 23, 42, 0.04);
                 transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             }
@@ -114,14 +114,14 @@ def run_credit_card_app():
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                min-width: clamp(36px, 4vw, 44px);
-                height: clamp(36px, 4vw, 44px);
+                min-width: calc(2.2rem + 0.5vw);
+                height: calc(2.2rem + 0.5vw);
                 border-radius: 12px;
                 background: rgba(2, 132, 199, 0.08);
                 color: #0284C7;
             }
             .data-banner__content {
-                font-size: clamp(13.5px, 0.5vw + 0.8rem, 15px) !important;
+                font-size: calc(0.85rem + 0.2vw) !important;
                 line-height: 1.6;
                 color: #334155 !important;
             }
@@ -144,22 +144,22 @@ def run_credit_card_app():
                 display: flex;
                 gap: 8px;
                 align-items: center;
-                margin-bottom: clamp(10px, 1.2vw, 15px);
-                margin-top: clamp(30px, 3vw, 35px);
+                margin-bottom: calc(0.6rem + 0.3vw);
+                margin-top: calc(1.8rem + 0.6vw);
             }
             .section__icon {
                 color: #0284C7; 
-                font-size: clamp(15px, 0.6vw + 1rem, 23px) !important; 
+                font-size: calc(1rem + 0.3vw) !important; 
             }
             .section__title {
-                font-size: clamp(16px, 1vw + 0.75rem, 20px) !important; 
+                font-size: calc(1rem + 0.4vw) !important; 
                 font-weight: 800; 
                 color: #0F172A; 
             }
             .card-grid {
                 display: grid !important;
                 grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-                gap: clamp(8px, 1vw, 12px) !important;
+                gap: calc(0.5rem + 0.3vw) !important;
                 width: 100% !important;
                 margin-bottom: 1rem;
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
@@ -167,7 +167,7 @@ def run_credit_card_app():
             .card-kpi {
                 border: 2.5px solid var(--card-color) !important;
                 border-radius: 16px !important;
-                padding: clamp(8px, 1vw, 12px) !important;
+                padding: calc(0.5rem + 0.3vw) !important;
                 display: flex !important;
                 flex-direction: column !important;
                 justify-content: space-between !important;
@@ -182,31 +182,31 @@ def run_credit_card_app():
                 align-items: center !important;
                 gap: 4px !important;
                 color: var(--card-color) !important;
-                font-size: clamp(12px, 0.4vw + 0.65rem, 13.5px) !important;
+                font-size: calc(0.75rem + 0.1vw) !important;
                 font-weight: 800 !important; 
                 letter-spacing: 0.3px !important;
             }
             .card-kpi__icon {
-                font-size: clamp(13px, 0.3vw + 0.7rem, 15px) !important;
+                font-size: calc(0.8rem + 0.1vw) !important;
             }
             .card-kpi__label {
                 white-space: nowrap !important;
             }
             .card-kpi__num {
-                font-size: clamp(20px, 1.5vw + 0.8rem, 26px) !important;
+                font-size: calc(1.2rem + 0.5vw) !important;
                 font-weight: 800 !important;
                 color: #0F172A !important;
                 white-space: nowrap !important;
             }
             .card-kpi__text {
-                font-size: clamp(11.5px, 0.3vw + 0.6rem, 13px) !important;
+                font-size: calc(0.7rem + 0.1vw) !important;
                 font-weight: 800 !important;
                 color: var(--card-color) !important;
                 display: -webkit-box !important;
                 -webkit-line-clamp: 2 !important;
                 -webkit-box-orient: vertical !important;
                 overflow: hidden !important;
-                min-height: clamp(28px, 2.5vw, 34px) !important; 
+                min-height: calc(1.75rem + 0.2vw) !important; 
             }
             .card-kpi__footer {
                 display: flex !important;
@@ -215,7 +215,7 @@ def run_credit_card_app():
                 margin-top: 2px !important;
             }
             .card-kpi__percentage-text {
-                font-size: clamp(11px, 0.2vw + 0.6rem, 12px) !important;
+                font-size: calc(0.7rem + 0.05vw) !important;
                 font-weight: 800 !important;
                 color: #475569 !important;
                 min-width: 32px !important;
@@ -239,7 +239,7 @@ def run_credit_card_app():
             }
             .card-customer {
                 border-radius: 24px;
-                padding: clamp(16px, 2vw, 25px);
+                padding: calc(1rem + 0.5vw);
                 border: 1.5px solid #E2E8F0 !important;
                 border-top: 5px solid var(--profile-color) !important;
                 box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.06);
@@ -251,7 +251,7 @@ def run_credit_card_app():
                 background-color: var(--profile-bg-light); 
                 color: var(--profile-color);
                 padding: 5px 12px;
-                font-size: clamp(11px, 0.3vw + 0.6rem, 13px) !important;
+                font-size: calc(0.7rem + 0.1vw) !important;
                 font-weight: 800;
                 border-radius: 30px;
                 margin-bottom: 12px;
@@ -259,10 +259,10 @@ def run_credit_card_app():
                 letter-spacing: 0.5px;
             }
             .card-customer__group-icon, .predict-card__group-icon {
-                font-size: clamp(12px, 0.3vw + 0.65rem, 14px);
+                font-size: calc(0.75rem + 0.1vw);
             }
             .card-customer__title, .predict-card__title {
-                font-size: clamp(15px, 0.8vw + 0.8rem, 18px) !important;
+                font-size: calc(0.95rem + 0.3vw) !important;
                 font-weight: 650; 
                 color: #0F172A; 
                 margin-bottom: 10px; 
@@ -273,22 +273,22 @@ def run_credit_card_app():
             }
             .card-customer__title-icon, .predict-card__title-icon {
                 color: var(--profile-color); 
-                font-size: clamp(18px, 1vw + 0.8rem, 22px);
+                font-size: calc(1.1rem + 0.2vw);
             }
             .card-customer__desc {
                 color: #1E293B; 
-                font-size: clamp(14px, 0.4vw + 0.75rem, 15.5px) !important;
+                font-size: calc(0.875rem + 0.1vw) !important;
                 line-height: 1.6;
             }
             .card-customer__action {
                 background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
                 border-radius: 16px;
-                padding: clamp(14px, 1.8vw, 20px);
+                padding: calc(0.85rem + 0.4vw);
                 border: 2px dashed var(--profile-color);
-                margin-top: clamp(14px, 1.8vw, 20px);
+                margin-top: calc(0.85rem + 0.4vw);
             }
             .card-customer__action-icon {
-                font-size: clamp(20px, 1.1vw + 0.8rem, 24px);
+                font-size: calc(1.25rem + 0.2vw);
             }
             .card-customer__action-title, .predict-card__action-title { 
                 display: flex; 
@@ -296,7 +296,7 @@ def run_credit_card_app():
                 gap: 6px;
                 color: var(--profile-color);
                 font-weight: 800; 
-                font-size: clamp(12px, 0.4vw + 0.65rem, 14.5px) !important; 
+                font-size: calc(0.75rem + 0.15vw) !important; 
                 text-transform: uppercase; 
                 letter-spacing: 0.5px; 
                 margin-bottom: 6px; 
@@ -305,12 +305,12 @@ def run_credit_card_app():
                 line-height: 1.6; 
                 font-weight: 500; 
                 color: #334155;
-                font-size: clamp(13.5px, 0.4vw + 0.7rem, 15px) !important;
+                font-size: calc(0.85rem + 0.1vw) !important;
             }
             .predict-card {
                 background: #FFFFFF;
                 border: 2.5px solid var(--profile-color) !important;
-                padding: clamp(16px, 2vw, 24px);
+                padding: calc(1rem + 0.5vw);
                 border-radius: 16px;
                 box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
                 margin-bottom: 20px;
@@ -323,19 +323,19 @@ def run_credit_card_app():
             }
             .predict-card__desc {
                 color: #1E293B; 
-                font-size: clamp(14px, 0.4vw + 0.75rem, 15.5px) !important; 
+                font-size: calc(0.875rem + 0.1vw) !important; 
                 line-height: 1.6; 
                 margin-bottom: 16px;
             }
             .predict-card__action {
                 border: 1px dashed var(--profile-color);
-                padding: clamp(12px, 1.5vw, 16px);
+                padding: calc(0.75rem + 0.3vw);
                 border-radius: 12px;
             }
             .card-info {
                 border: 1px solid #E2E8F0;
                 border-radius: 14px;
-                padding: clamp(16px, 2vw, 24px);
+                padding: calc(1rem + 0.5vw);
                 box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
                 transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
                 margin-bottom: 1rem;
@@ -346,14 +346,14 @@ def run_credit_card_app():
                 box-shadow: 0 12px 28px rgba(37, 99, 235, 0.08);
             }
             .card-info__description {
-                font-size: clamp(14.5px, 0.4vw + 0.8rem, 16.5px) !important;
+                font-size: calc(0.9rem + 0.2vw) !important;
                 color: #334155;
                 line-height: 1.65;
             }
             .card-info__grid {
                 display: grid !important;
                 grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-                gap: clamp(10px, 1.2vw, 16px) !important;
+                gap: calc(0.6rem + 0.4vw) !important;
                 margin-bottom: 10px !important;
                 margin-top: 15px !important;
             }
@@ -361,7 +361,7 @@ def run_credit_card_app():
                 background: #F8FAFC;
                 border: 1px solid #E2E8F0;
                 border-radius: 10px;
-                padding: clamp(12px, 1.5vw, 16px);
+                padding: calc(0.75rem + 0.3vw);
                 transition: all 0.3s ease;
                 box-sizing: border-box !important;
             }
@@ -375,23 +375,23 @@ def run_credit_card_app():
                 align-items: center;
                 gap: 6px;
                 font-weight: 700;
-                font-size: clamp(14px, 0.4vw + 0.75rem, 16px) !important;
+                font-size: calc(0.875rem + 0.1vw) !important;
                 color: #0F172A;
                 margin-bottom: 8px;
             }
             .data-card__icon {
-                font-size: clamp(16px, 0.3vw + 0.8rem, 18px); 
+                font-size: calc(1rem + 0.1vw); 
                 color: #2563EB; 
             }
             .data-card__text {
-                font-size: clamp(14px, 0.35vw + 0.75rem, 15.5px) !important;
+                font-size: calc(0.85rem + 0.1vw) !important;
                 color: #475569; 
                 margin: 0;
                 line-height: 1.6;
             }
             .step-card {
                 background: #F8FAFC; 
-                padding: clamp(14px, 1.8vw, 20px); 
+                padding: calc(0.85rem + 0.4vw); 
                 border-radius: 12px; 
                 border-left: 4px solid #60A5FA; 
                 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
@@ -403,23 +403,23 @@ def run_credit_card_app():
                 margin-bottom: 12px; 
                 color: #2563EB; 
                 font-weight: 700; 
-                font-size: clamp(15px, 0.4vw + 0.8rem, 17px) !important;
+                font-size: calc(0.95rem + 0.1vw) !important;
             }
             .step-card__icon {
-                font-size: clamp(16px, 0.3vw + 0.8rem, 18px);
+                font-size: calc(1rem + 0.1vw);
             }
             .step-card__content {
                 margin: 0; 
                 color: #475569; 
                 line-height: 1.6;
-                font-size: clamp(14.5px, 0.4vw + 0.8rem, 16px) !important;
+                font-size: calc(0.9rem + 0.1vw) !important;
             }
             .step-card__data {
                 display: inline-block; 
                 background: #EFF6FF; 
                 color: #3B82F6; 
                 font-weight: 600; 
-                font-size: clamp(11.5px, 0.2vw + 0.6rem, 13px) !important; 
+                font-size: calc(0.72rem + 0.08vw) !important; 
                 padding: 2px 8px; 
                 border-radius: 6px; 
                 margin: 4px 2px; 
@@ -433,13 +433,13 @@ def run_credit_card_app():
                 justify-content: center;
             }
             .elbow__icon {
-                font-size: clamp(16px, 0.3vw + 0.8rem, 18px); 
+                font-size: calc(1rem + 0.1vw); 
                 color: #2563EB;
             }
             .elbow__header {
                 font-weight: 700; 
                 color: #475569; 
-                font-size: clamp(12.5px, 0.3vw + 0.65rem, 14px) !important;
+                font-size: calc(0.8rem + 0.1vw) !important;
             }
             div[data-testid="stElementContainer"],
             div[data-testid="stRadio"],
@@ -450,7 +450,6 @@ def run_credit_card_app():
                 display: flex !important;
                 justify-content: space-between !important;
             }
-            /* Xóa biểu tượng bên cạnh page header */
             .st-emotion-cache-gi0tri {
                 display: none !important;
             }
