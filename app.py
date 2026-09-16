@@ -155,8 +155,6 @@ st.markdown("""
                 width: 309px !important;
                 min-width: 309px !important;
                 max-width: 309px !important;
-                visibility: visible !important;
-                position: relative !important;
             }
         }
     </style>
