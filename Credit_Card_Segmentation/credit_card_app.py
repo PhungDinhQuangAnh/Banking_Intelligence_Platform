@@ -495,9 +495,7 @@ def run_credit_card_app():
     
     # 1. Tiêu đề trang
     st.markdown("""
-        <h1 class="page-header">
-            Phân Khúc Khách Hàng Thẻ Tín Dụng
-        </h1>
+        <h1 class="page-header">Phân Khúc Khách Hàng Thẻ Tín Dụng</h1>
     """, unsafe_allow_html=True)
 
     # 2. Banner nguồn gốc dữ liệu & rào cản bảo mật
