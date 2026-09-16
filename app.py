@@ -153,17 +153,18 @@ st.markdown("""
             box-shadow: 0 6px 16px rgba(46, 134, 193, 0.25) !important;
         }
         @media (min-width: 1280px) {
-            /* Ép Sidebar luôn hiển thị trên màn hình lớn hơn hoặc bằng 1280px */
-            section[data-testid="stSidebar"] {
-                transform: none !important;
-            }
             button[data-testid="stExpandSidebarButton"],
             button[data-testid="stCollapseSidebarButton"] {
                 display: none !important;
             }
-            /* 2. Ép phần nội dung chính lùi sang phải 309px để không bị đè chữ */
-            div[data-testid="stAppViewContainer"] {
-                padding-left: 309px !important;
+            section[data-testid="stSidebar"] {
+                transform: none !important;
+                margin-left: 0 !important;
+                width: 309px !important;
+                min-width: 309px !important;
+                max-width: 309px !important;
+                visibility: visible !important;
+                position: relative !important;
             }
         }
     </style>
