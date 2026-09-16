@@ -123,26 +123,23 @@ st.markdown("""
             position: fixed !important;
             top: 14px !important;
             left: 14px !important;
-            z-index: 999999 !important;
             background-color: #FFFFFF !important;         
             border: 2px solid #2E86C1 !important;         
             border-radius: 20px !important;             
             padding: 5px 14px 5px 10px !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 6px !important;
+            gap: 5px !important;
             animation: lightMenuPulse 2.2s infinite !important;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
         button[data-testid="stExpandSidebarButton"]::after {
             content: "MENU";
             color: #1B4F72;                                  
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 800;
             letter-spacing: 0.6px;
         }
         button[data-testid="stExpandSidebarButton"] span {
-            color: #2E86C1 !important;     
+            color: #2E86C1 !important;  
             font-size: 1.3rem !important;
         }
         button[data-testid="stExpandSidebarButton"]:hover {
