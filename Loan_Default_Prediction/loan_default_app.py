@@ -24,14 +24,14 @@ def run_loan_default_app():
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
             font-weight: 800;
-            font-size: clamp(24px, 3.5vw + 1rem, 38px) !important;
-            margin-bottom: clamp(12px, 2vw, 30px) !important;
+            font-size: clamp(22px, 3vw + 0.8rem, 36px) !important;
+            margin-bottom: clamp(12px, 2vw, 24px) !important;
         } 
         hr {
             margin: 0 0 1rem 0 !important;
         }
         .section-title {
-            font-size: clamp(16px, 0.85vw + 0.8rem, 25px) !important; 
+            font-size: clamp(16px, 0.8vw + 0.8rem, 22px) !important; 
             font-weight: 650 !important; 
             color: #0F172A; 
             margin-top: clamp(10px, 2vw, 25px) !important;
@@ -44,13 +44,13 @@ def run_loan_default_app():
             margin-bottom: clamp(0px, 1.25vw, 12px)
         }
         .result-banner__title {
-            font-size: clamp(14.3px, 1vw + 0.5rem, 20px) !important;
+            font-size: clamp(15px, 0.8vw + 0.6rem, 20px) !important;
             margin: 0 !important;
             color: var(--text-color) !important;
         }
         .result-banner__desc {
             color: var(--text-color);
-            font-size: clamp(13.5px, 0.5vw + 0.6rem, 15px); 
+            font-size: clamp(14px, 0.4vw + 0.7rem, 15.5px) !important; 
             margin: 0 !important;
             line-height: 1.5;
             letter-spacing: 0.3px;
@@ -82,7 +82,7 @@ def run_loan_default_app():
             gap: 8px;
         }
         .card-metric__label-text {
-            font-size: clamp(12px, 0.4vw + 0.55rem, 13.5px); 
+            font-size: clamp(13px, 0.3vw + 0.65rem, 14px) !important;
             color: #334155; 
             font-weight: 500;
         }
@@ -122,7 +122,7 @@ def run_loan_default_app():
             line-height: 1 !important;
         }
         .card-report__title-content {
-            font-size: clamp(14.5px, 1.1vw, 16px) !important;
+            font-size: clamp(14.5px, 0.8vw + 0.6rem, 16.5px) !important;
             font-weight: 700 !important;
             letter-spacing: 0.3px;
         }
@@ -136,7 +136,7 @@ def run_loan_default_app():
             color: #854D0E !important;
         }
         .card-report__list {
-            font-size: clamp(13px, 0.95vw, 14.5px) !important;
+            font-size: clamp(13.5px, 0.4vw + 0.65rem, 15px) !important;
             line-height: 1.6 !important;
             padding-left: 20px !important; 
             margin: 0 !important;
