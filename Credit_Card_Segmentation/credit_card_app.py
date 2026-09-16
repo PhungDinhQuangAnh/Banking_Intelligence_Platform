@@ -188,7 +188,7 @@ def run_credit_card_app():
                 align-items: center !important;
                 gap: 4px !important;
                 color: var(--card-color) !important;
-                font-size: calc(0.78rem + 0.1vw) !important;
+                font-size: calc(0.7rem + 0.1vw) !important;
                 font-weight: 800 !important; 
                 letter-spacing: 0.3px !important;
             }
@@ -205,7 +205,7 @@ def run_credit_card_app():
                 white-space: nowrap !important;
             }
             .card-kpi__text {
-                font-size: calc(0.78rem + 0.1vw) !important;
+                font-size: calc(0.7rem + 0.1vw) !important;
                 font-weight: 800 !important;
                 color: var(--card-color) !important;
                 display: -webkit-box !important;
