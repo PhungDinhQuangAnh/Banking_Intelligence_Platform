@@ -373,7 +373,7 @@ def run_credit_card_app():
             .data-card__title {
                 display: flex;
                 align-items: center;
-                gap: 8px;
+                gap: 6px;
                 font-weight: 700;
                 font-size: clamp(14px, 0.4vw + 0.75rem, 16px) !important;
                 color: #0F172A;
