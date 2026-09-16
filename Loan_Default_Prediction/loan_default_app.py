@@ -24,33 +24,33 @@ def run_loan_default_app():
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
             font-weight: 800;
-            font-size: clamp(22px, 3vw + 0.8rem, 36px) !important;
-            margin-bottom: clamp(12px, 2vw, 24px) !important;
+            font-size: calc(1.3rem + 1.2vw) !important;
+            margin-bottom: calc(0.9rem + 0.5vw) !important;
         } 
         hr {
             margin: 0 0 1rem 0 !important;
         }
         .section-title {
-            font-size: clamp(16px, 0.8vw + 0.8rem, 22px) !important; 
-            font-weight: 650 !important; 
+            font-size: calc(1rem + 0.4vw) !important; 
+            font-weight: 800 !important; 
             color: #0F172A; 
-            margin-top: clamp(10px, 2vw, 25px) !important;
+            margin-top: calc(0.625rem + 1vw) !important;
         }
         .result-banner {
             background-color: var(--bg-color) !important; 
             border-left: 6px solid var(--border-color) !important; 
-            padding: clamp(13px, 2vw, 20px); 
+            padding: calc(0.8rem + 0.5vw); 
             border-radius: 8px; 
-            margin-bottom: clamp(0px, 1.25vw, 12px)
+            margin-bottom: calc(0.2rem + 0.5vw);
         }
         .result-banner__title {
-            font-size: clamp(15px, 0.8vw + 0.6rem, 20px) !important;
+            font-size: calc(0.95rem + 0.3vw) !important;
             margin: 0 !important;
             color: var(--text-color) !important;
         }
         .result-banner__desc {
             color: var(--text-color);
-            font-size: clamp(14px, 0.4vw + 0.7rem, 15.5px) !important; 
+            font-size: calc(0.875rem + 0.1vw) !important; 
             margin: 0 !important;
             line-height: 1.5;
             letter-spacing: 0.3px;
@@ -59,7 +59,7 @@ def run_loan_default_app():
             background: #FFFFFF; 
             margin-bottom: 1rem;
             border: 1px solid #E2E8F0; 
-            padding: clamp(12px, 1.5vw, 15px); 
+            padding: calc(0.75rem + 0.25vw); 
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; 
@@ -73,7 +73,7 @@ def run_loan_default_app():
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: clamp(8px, 1vw, 12px) 0;
+            padding: calc(0.5rem + 0.25vw) 0;
             border-bottom: 1px solid #F1F5F9;
         }
         .card-metric__label {
@@ -82,13 +82,13 @@ def run_loan_default_app():
             gap: 8px;
         }
         .card-metric__label-text {
-            font-size: clamp(13px, 0.3vw + 0.65rem, 14px) !important;
+            font-size: calc(0.8rem + 0.1vw) !important;
             color: #334155; 
             font-weight: 500;
         }
         .card-metric__label-icon {
             color: #64748B; 
-            font-size: clamp(15px, 1vw + 0.2rem, 18px);
+            font-size: calc(0.95rem + 0.2vw);
         }
         .card-report {
             padding: 15px; 
@@ -118,11 +118,11 @@ def run_loan_default_app():
             padding: 0 !important;
         }
         .card-report__icon {
-            font-size: clamp(19px, 1.5vw, 24px) !important;
+            font-size: calc(1.2rem + 0.3vw) !important;
             line-height: 1 !important;
         }
         .card-report__title-content {
-            font-size: clamp(14.5px, 0.8vw + 0.6rem, 16.5px) !important;
+            font-size: calc(0.9rem + 0.2vw) !important;
             font-weight: 700 !important;
             letter-spacing: 0.3px;
         }
@@ -136,7 +136,7 @@ def run_loan_default_app():
             color: #854D0E !important;
         }
         .card-report__list {
-            font-size: clamp(14px, 0.3vw + 0.8rem, 15.5px) !important;
+            font-size: calc(0.875rem + 0.1vw) !important;
             line-height: 1.6 !important;
             padding-left: 20px !important; 
             margin: 0 !important;
@@ -179,7 +179,7 @@ def run_loan_default_app():
                 border: 2px solid #86EFAC;
             }
         }
-    </style>
+        </style>
     """, unsafe_allow_html=True)
 
     # 1. Tiêu đề trang
