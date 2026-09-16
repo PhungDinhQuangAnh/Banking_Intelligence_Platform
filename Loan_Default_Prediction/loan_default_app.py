@@ -136,7 +136,7 @@ def run_loan_default_app():
             color: #854D0E !important;
         }
         .card-report__list {
-            font-size: clamp(13.5px, 0.4vw + 0.65rem, 15px) !important;
+            font-size: clamp(14px, 0.3vw + 0.8rem, 15.5px) !important;
             line-height: 1.6 !important;
             padding-left: 20px !important; 
             margin: 0 !important;
