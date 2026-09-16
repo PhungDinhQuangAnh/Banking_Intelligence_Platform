@@ -449,11 +449,11 @@ def run_credit_card_app():
                 display: flex !important;
                 justify-content: space-between !important;
             }
-            .st-emotion-cache-gi0tri {
+            div[data-testid="stHeaderActionElements"] {
                 display: none !important;
             }
             .traces {
-                display:flex;
+                display: flex;
                 justify-content: center;
             }  
             section[data-testid="stMain"] {
