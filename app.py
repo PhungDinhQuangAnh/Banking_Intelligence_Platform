@@ -155,8 +155,9 @@ st.markdown("""
             }
             section[data-testid="stSidebar"] {
                 transform: none !important;
-                margin-left: 0 !important;
                 width: 309px !important;
+                min-width: 309px !important;
+                max-width: 309px !important;
                 visibility: visible !important;
                 position: relative !important;
             }
