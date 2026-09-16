@@ -200,12 +200,12 @@ def run_credit_card_app():
             }
             .card-kpi__num {
                 font-size: calc(1.3rem + 0.5vw) !important;
-                font-weight: 750 !important;
+                font-weight: 800 !important;
                 color: #0F172A !important;
                 white-space: nowrap !important;
             }
             .card-kpi__text {
-                font-size: calc(0.7rem + 0.1vw) !important;
+                font-size: calc(0.78rem + 0.1vw) !important;
                 font-weight: 800 !important;
                 color: var(--card-color) !important;
                 display: -webkit-box !important;
