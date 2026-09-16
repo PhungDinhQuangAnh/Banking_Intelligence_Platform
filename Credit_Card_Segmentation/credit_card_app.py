@@ -79,7 +79,7 @@ def run_credit_card_app():
                 -webkit-background-clip: text; 
                 -webkit-text-fill-color: transparent; 
                 font-weight: 800 !important;
-                font-size: calc(1.3rem + 1.2vw) !important;
+                font-size: calc(1.4rem + 1vw) !important;
                 margin-bottom: calc(0.9rem + 0.5vw) !important;
             }
             .data-banner {
@@ -121,7 +121,7 @@ def run_credit_card_app():
                 color: #0284C7;
             }
             .data-banner__content {
-                font-size: calc(0.85rem + 0.2vw) !important;
+                font-size: calc(0.875rem + 0.15vw) !important;
                 line-height: 1.6;
                 color: #334155 !important;
             }
@@ -149,10 +149,10 @@ def run_credit_card_app():
             }
             .section__icon {
                 color: #0284C7; 
-                font-size: calc(1rem + 0.3vw) !important; 
+                font-size: calc(1.1rem + 0.3vw) !important; 
             }
             .section__title {
-                font-size: calc(1rem + 0.4vw) !important; 
+                font-size: calc(1.05rem + 0.35vw) !important; 
                 font-weight: 800; 
                 color: #0F172A; 
             }
@@ -167,7 +167,7 @@ def run_credit_card_app():
             .card-kpi {
                 border: 2.5px solid var(--card-color) !important;
                 border-radius: 16px !important;
-                padding: calc(0.5rem + 0.3vw) !important;
+                padding: calc(0.6rem + 0.3vw) !important;
                 display: flex !important;
                 flex-direction: column !important;
                 justify-content: space-between !important;
@@ -182,43 +182,42 @@ def run_credit_card_app():
                 align-items: center !important;
                 gap: 4px !important;
                 color: var(--card-color) !important;
-                font-size: calc(0.75rem + 0.1vw) !important;
+                font-size: calc(0.78rem + 0.1vw) !important;
                 font-weight: 800 !important; 
                 letter-spacing: 0.3px !important;
             }
             .card-kpi__icon {
-                font-size: calc(0.8rem + 0.1vw) !important;
+                font-size: calc(0.85rem + 0.1vw) !important;
             }
             .card-kpi__label {
                 white-space: nowrap !important;
             }
             .card-kpi__num {
-                font-size: calc(1.2rem + 0.5vw) !important;
+                font-size: calc(1.4rem + 0.6vw) !important;
                 font-weight: 800 !important;
                 color: #0F172A !important;
                 white-space: nowrap !important;
             }
             .card-kpi__text {
-                font-size: calc(0.7rem + 0.1vw) !important;
-                font-weight: 800 !important;
+                font-size: calc(0.78rem + 0.1vw) !important;
+                font-weight: 700 !important;
                 color: var(--card-color) !important;
                 display: -webkit-box !important;
                 -webkit-line-clamp: 2 !important;
                 -webkit-box-orient: vertical !important;
                 overflow: hidden !important;
-                min-height: calc(1.75rem + 0.2vw) !important; 
             }
             .card-kpi__footer {
                 display: flex !important;
                 align-items: center !important;
                 gap: 6px !important;
-                margin-top: 2px !important;
+                margin-top: 4px !important;
             }
             .card-kpi__percentage-text {
-                font-size: calc(0.7rem + 0.05vw) !important;
+                font-size: calc(0.78rem + 0.05vw) !important;
                 font-weight: 800 !important;
                 color: #475569 !important;
-                min-width: 32px !important;
+                min-width: 34px !important;
             }
             .card-kpi__progress-bar {
                 flex: 1 !important;
@@ -251,7 +250,7 @@ def run_credit_card_app():
                 background-color: var(--profile-bg-light); 
                 color: var(--profile-color);
                 padding: 5px 12px;
-                font-size: calc(0.7rem + 0.1vw) !important;
+                font-size: calc(0.75rem + 0.1vw) !important;
                 font-weight: 800;
                 border-radius: 30px;
                 margin-bottom: 12px;
@@ -259,21 +258,21 @@ def run_credit_card_app():
                 letter-spacing: 0.5px;
             }
             .card-customer__group-icon, .predict-card__group-icon {
-                font-size: calc(0.75rem + 0.1vw);
+                font-size: calc(0.8rem + 0.1vw);
             }
             .card-customer__title, .predict-card__title {
-                font-size: calc(0.95rem + 0.3vw) !important;
-                font-weight: 650; 
+                font-size: calc(1rem + 0.3vw) !important;
+                font-weight: 700; 
                 color: #0F172A; 
                 margin-bottom: 10px; 
                 display: flex; 
                 align-items: center; 
                 gap: 8px; 
-                line-height: 1.2;
+                line-height: 1.3;
             }
             .card-customer__title-icon, .predict-card__title-icon {
                 color: var(--profile-color); 
-                font-size: calc(1.1rem + 0.2vw);
+                font-size: calc(1.15rem + 0.2vw);
             }
             .card-customer__desc {
                 color: #1E293B; 
@@ -296,7 +295,7 @@ def run_credit_card_app():
                 gap: 6px;
                 color: var(--profile-color);
                 font-weight: 800; 
-                font-size: calc(0.75rem + 0.15vw) !important; 
+                font-size: calc(0.78rem + 0.15vw) !important; 
                 text-transform: uppercase; 
                 letter-spacing: 0.5px; 
                 margin-bottom: 6px; 
@@ -305,7 +304,7 @@ def run_credit_card_app():
                 line-height: 1.6; 
                 font-weight: 500; 
                 color: #334155;
-                font-size: calc(0.85rem + 0.1vw) !important;
+                font-size: calc(0.875rem + 0.1vw) !important;
             }
             .predict-card {
                 background: #FFFFFF;
@@ -403,7 +402,7 @@ def run_credit_card_app():
                 margin-bottom: 12px; 
                 color: #2563EB; 
                 font-weight: 700; 
-                font-size: calc(0.95rem + 0.1vw) !important;
+                font-size: calc(0.94rem + 0.1vw) !important;
             }
             .step-card__icon {
                 font-size: calc(1rem + 0.1vw);
@@ -412,14 +411,14 @@ def run_credit_card_app():
                 margin: 0; 
                 color: #475569; 
                 line-height: 1.6;
-                font-size: calc(0.9rem + 0.1vw) !important;
+                font-size: calc(0.875rem + 0.1vw) !important;
             }
             .step-card__data {
                 display: inline-block; 
                 background: #EFF6FF; 
                 color: #3B82F6; 
                 font-weight: 600; 
-                font-size: calc(0.72rem + 0.08vw) !important; 
+                font-size: calc(0.78rem + 0.08vw) !important; 
                 padding: 2px 8px; 
                 border-radius: 6px; 
                 margin: 4px 2px; 
@@ -439,7 +438,7 @@ def run_credit_card_app():
             .elbow__header {
                 font-weight: 700; 
                 color: #475569; 
-                font-size: calc(0.8rem + 0.1vw) !important;
+                font-size: calc(0.85rem + 0.1vw) !important;
             }
             div[data-testid="stElementContainer"],
             div[data-testid="stRadio"],
