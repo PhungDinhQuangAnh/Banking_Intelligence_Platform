@@ -277,7 +277,7 @@ def run_credit_card_app():
             }
             .card-customer__desc {
                 color: #1E293B; 
-                font-size: clamp(13px, 0.3vw + 0.7rem, 14.5px) !important;
+                font-size: clamp(14px, 0.3vw + 0.7rem, 14.5px) !important;
                 line-height: 1.6;
             }
             .card-customer__action {
