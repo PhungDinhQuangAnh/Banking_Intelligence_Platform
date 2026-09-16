@@ -152,6 +152,12 @@ st.markdown("""
             transform: translateY(-2px) scale(1.03) !important;
             box-shadow: 0 6px 16px rgba(46, 134, 193, 0.25) !important;
         }
+        @media (min-width: 1280px) {
+            /* Ép Sidebar luôn hiển thị trên màn hình lớn hơn hoặc bằng 1280px */
+            section[data-testid="stSidebar"] {
+                transform: none !important;
+            }
+        }
     </style>
 """, unsafe_allow_html=True)
 
