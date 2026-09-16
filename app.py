@@ -150,9 +150,6 @@ st.markdown("""
             box-shadow: 0 6px 16px rgba(46, 134, 193, 0.25) !important;
         }
         @media (min-width: 1280px) {
-            button[data-testid="stExpandSidebarButton"] {
-                display: none !important;
-            }
             section[data-testid="stSidebar"] {
                 transform: none !important;
                 width: 309px !important;
