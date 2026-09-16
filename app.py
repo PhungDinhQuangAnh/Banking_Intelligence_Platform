@@ -153,16 +153,9 @@ st.markdown("""
             box-shadow: 0 6px 16px rgba(46, 134, 193, 0.25) !important;
         }
         @media (min-width: 1280px) {
-            button[data-testid="stExpandSidebarButton"],
-            button[data-testid="stCollapseSidebarButton"] {
-                display: none !important;
-            }
             section[data-testid="stSidebar"] {
                 transform: none !important;
-                margin-left: 0 !important;
                 width: 309px !important;
-                min-width: 309px !important;
-                max-width: 309px !important;
                 visibility: visible !important;
                 position: relative !important;
             }
