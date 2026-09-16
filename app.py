@@ -161,6 +161,10 @@ st.markdown("""
             button[data-testid="stCollapseSidebarButton"] {
                 display: none !important;
             }
+            /* 2. Ép phần nội dung chính lùi sang phải 309px để không bị đè chữ */
+            div[data-testid="stAppViewContainer"] {
+                padding-left: 309px !important;
+            }
         }
     </style>
 """, unsafe_allow_html=True)
