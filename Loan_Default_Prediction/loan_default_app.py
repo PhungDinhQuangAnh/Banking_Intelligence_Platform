@@ -15,7 +15,10 @@ def run_loan_default_app():
     # CSS Internal
     st.markdown("""
     <style>
-        .st-emotion-cache-gi0tri {
+        div[data-testid="stHeaderActionElements"] {
+            display: none !important;
+        }
+        .st-emotion-cache-uh7dsh a {
             display: none !important;
         }
         .page-header {
