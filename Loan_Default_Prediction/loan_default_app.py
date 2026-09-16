@@ -15,12 +15,6 @@ def run_loan_default_app():
     # CSS Internal
     st.markdown("""
     <style>
-        div[data-testid="stHeaderActionElements"] {
-            display: none !important;
-        }
-        .st-emotion-cache-uh7dsh a {
-            display: none !important;
-        }
         .page-header {
             text-align: center;
             background: linear-gradient(to right, #60A5FA, #2563EB, #1E3A8A); 
@@ -30,6 +24,12 @@ def run_loan_default_app():
             font-size: calc(1.375rem + 1vw) !important;
             margin-bottom: calc(0.75rem + 0.8vw) !important;
         } 
+        div[data-testid="stHeaderActionElements"] {
+            display: none !important;
+        }
+        .st-emotion-cache-uh7dsh a {
+            display: none !important;
+        }
         hr {
             margin: 0 0 1rem 0 !important;
         }
