@@ -157,6 +157,10 @@ st.markdown("""
             section[data-testid="stSidebar"] {
                 transform: none !important;
             }
+            button[data-testid="stExpandSidebarButton"],
+            button[data-testid="stCollapseSidebarButton"] {
+                display: none !important;
+            }
         }
     </style>
 """, unsafe_allow_html=True)
