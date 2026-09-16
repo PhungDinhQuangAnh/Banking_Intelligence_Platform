@@ -346,7 +346,7 @@ def run_credit_card_app():
                 box-shadow: 0 12px 28px rgba(37, 99, 235, 0.08);
             }
             .card-info__description {
-                font-size: clamp(13.5px, 0.3vw + 0.75rem, 15px) !important;
+                font-size: clamp(14.5px, 0.4vw + 0.8rem, 16.5px) !important;
                 color: #334155;
                 line-height: 1.65;
             }
@@ -384,9 +384,10 @@ def run_credit_card_app():
                 color: #2563EB; 
             }
             .data-card__text {
-                font-size: clamp(13.5px, 0.3vw + 0.7rem, 14.5px) !important; 
+                font-size: clamp(14px, 0.35vw + 0.75rem, 15.5px) !important;
                 color: #475569; 
                 margin: 0;
+                line-height: 1.6;
             }
             .step-card {
                 background: #F8FAFC; 
@@ -402,7 +403,7 @@ def run_credit_card_app():
                 margin-bottom: 12px; 
                 color: #2563EB; 
                 font-weight: 700; 
-                font-size: clamp(13.5px, 0.3vw + 0.75rem, 15px) !important;
+                font-size: clamp(15px, 0.4vw + 0.8rem, 17px) !important;
             }
             .step-card__icon {
                 font-size: clamp(16px, 0.3vw + 0.8rem, 18px);
@@ -411,7 +412,7 @@ def run_credit_card_app():
                 margin: 0; 
                 color: #475569; 
                 line-height: 1.6;
-                font-size: clamp(13.5px, 0.4vw + 0.7rem, 15px) !important;
+                font-size: clamp(14.5px, 0.4vw + 0.8rem, 16px) !important;
             }
             .step-card__data {
                 display: inline-block; 
