@@ -301,7 +301,7 @@ def run_credit_card_app():
                 gap: 6px;
                 color: var(--profile-color);
                 font-weight: 800; 
-                font-size: calc(0.78rem + 0.15vw) !important; 
+                font-size: calc(0.73rem + 0.15vw) !important; 
                 text-transform: uppercase; 
                 letter-spacing: 0.5px; 
                 margin-bottom: 6px; 
