@@ -152,9 +152,9 @@ st.markdown("""
         @media (min-width: 1280px) {
             section[data-testid="stSidebar"] {
                 transform: none !important;
-                width: 315px !important;
-                min-width: 315px !important;
-                max-width: 315px !important;
+                width: 317px !important;
+                min-width: 317px !important;
+                max-width: 317px !important;
             }
         }
     </style>
