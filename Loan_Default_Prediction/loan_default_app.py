@@ -23,17 +23,17 @@ def run_loan_default_app():
             background: linear-gradient(to right, #60A5FA, #2563EB, #1E3A8A); 
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
-            font-weight: 800;
-            font-size: calc(1.3rem + 1.2vw) !important;
-            margin-bottom: calc(0.9rem + 0.5vw) !important;
+            font-weight: 800 !important;
+            font-size: calc(1.375rem + 1vw) !important;
+            margin-bottom: calc(0.75rem + 0.8vw) !important;
         } 
         hr {
             margin: 0 0 1rem 0 !important;
         }
         .section-title {
             font-size: calc(1rem + 0.4vw) !important; 
-            font-weight: 800 !important; 
-            color: #0F172A; 
+            font-weight: 700 !important; 
+            color: #0F172A !important; 
             margin-top: calc(0.625rem + 1vw) !important;
         }
         .result-banner {
@@ -59,7 +59,7 @@ def run_loan_default_app():
             background: #FFFFFF; 
             margin-bottom: 1rem;
             border: 1px solid #E2E8F0; 
-            padding: calc(0.75rem + 0.25vw); 
+            padding: calc(0.75rem + 0.4vw); 
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; 
@@ -76,45 +76,48 @@ def run_loan_default_app():
             padding: calc(0.5rem + 0.25vw) 0;
             border-bottom: 1px solid #F1F5F9;
         }
+        .card-metric__item:last-child {
+            border-bottom: none;
+        }
         .card-metric__label {
             display: flex; 
             align-items: center; 
             gap: 8px;
         }
         .card-metric__label-text {
-            font-size: calc(0.8rem + 0.1vw) !important;
+            font-size: calc(0.85rem + 0.1vw) !important;
             color: #334155; 
-            font-weight: 500;
+            font-weight: 600;
         }
         .card-metric__label-icon {
             color: #64748B; 
             font-size: calc(0.95rem + 0.2vw);
         }
         .card-report {
-            padding: 15px; 
-            border-radius: 10px;
+            padding: calc(0.85rem + 0.4vw); 
+            border-radius: 12px;
             box-sizing: border-box;  
             height: 100% !important;
         }
         .card-report--green {
             background-color: #F0FDF4;
-            border-top: 2px solid #86EFAC;
+            border-top: 3px solid #4ADE80;
         }
         .card-report--red {
             background-color: #FEF2F2;
-            border-top: 2px solid #FCA5A5;
+            border-top: 3px solid #F87171;
         }
         .card-report--yellow {
             background-color: #FFFBEB;
-            border: 2px dashed #FDE047;
+            border: 2px dashed #FACC15;
             margin-bottom: 1rem;
             margin-top: 10px;
         }
         .card-report__title {
             display: flex !important;
-            gap: 5px !important;
+            gap: 6px !important;
             align-items: center !important;
-            margin-bottom: 8px !important;
+            margin-bottom: 10px !important;
             padding: 0 !important;
         }
         .card-report__icon {
@@ -122,7 +125,7 @@ def run_loan_default_app():
             line-height: 1 !important;
         }
         .card-report__title-content {
-            font-size: calc(0.9rem + 0.2vw) !important;
+            font-size: calc(0.95rem + 0.2vw) !important;
             font-weight: 700 !important;
             letter-spacing: 0.3px;
         }
@@ -161,11 +164,12 @@ def run_loan_default_app():
         }
         div[data-testid="stColumn"] > div[data-testid="stVerticalBlock"] {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-start;
+            align-items: stretch;
         }
         @container main-viewport (max-width: 730px) {
-            div[data-testid="stHorizontalBlock"] {
+            div[data-testid="stHorizontalBlock"],
+            div[data-testid="stHorizontal"] {
                 flex-direction: column !important;
             }
             div[data-testid="stColumn"] {
@@ -179,7 +183,7 @@ def run_loan_default_app():
                 border: 2px solid #86EFAC;
             }
         }
-        </style>
+    </style>
     """, unsafe_allow_html=True)
 
     # 1. Tiêu đề trang
