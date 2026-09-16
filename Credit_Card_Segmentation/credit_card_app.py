@@ -82,6 +82,12 @@ def run_credit_card_app():
                 font-size: calc(1.4rem + 1vw) !important;
                 margin-bottom: calc(0.9rem + 0.5vw) !important;
             }
+            div[data-testid="stHeaderActionElements"] {
+                display: none !important;
+            }
+            .st-emotion-cache-uh7dsh a {
+                display: none !important;
+            }
             .data-banner {
                 display: flex;
                 flex-direction: column;
@@ -448,9 +454,6 @@ def run_credit_card_app():
             div[data-testid="stRadio"] > div[data-testid="stRadioGroup"] {
                 display: flex !important;
                 justify-content: space-between !important;
-            }
-            div[data-testid="stHeaderActionElements"] {
-                display: none !important;
             }
             .traces {
                 display: flex;
