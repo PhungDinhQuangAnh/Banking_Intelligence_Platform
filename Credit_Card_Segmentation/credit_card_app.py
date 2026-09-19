@@ -158,8 +158,8 @@ def run_credit_card_app():
                 font-size: calc(1.1rem + 0.3vw) !important; 
             }
             .section__title {
-                font-size: calc(1.05rem + 0.35vw) !important; 
-                font-weight: 800; 
+                font-size: calc(1rem + 0.4vw) !important; 
+                font-weight: 750; 
                 color: #0F172A; 
             }
             .card-grid {
@@ -200,7 +200,7 @@ def run_credit_card_app():
             }
             .card-kpi__num {
                 font-size: calc(1.3rem + 0.5vw) !important;
-                font-weight: 800 !important;
+                font-weight: 750 !important;
                 color: #0F172A !important;
                 white-space: nowrap !important;
             }
