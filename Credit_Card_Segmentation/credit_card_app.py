@@ -155,7 +155,7 @@ def run_credit_card_app():
             }
             .section__icon {
                 color: #0284C7; 
-                font-size: calc(1.1rem + 0.3vw) !important; 
+                font-size: calc(1rem + 0.3vw) !important; 
             }
             .section__title {
                 font-size: calc(1rem + 0.4vw) !important; 
@@ -200,7 +200,7 @@ def run_credit_card_app():
             }
             .card-kpi__num {
                 font-size: calc(1.3rem + 0.5vw) !important;
-                font-weight: 780 !important;
+                font-weight: 790 !important;
                 color: #0F172A !important;
                 white-space: nowrap !important;
             }
